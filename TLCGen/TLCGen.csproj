@@ -64,6 +64,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodingConnected.FastWpfGrid">
+      <HintPath>Libs\CodingConnected.FastWpfGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -84,6 +87,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WriteableBitmapEx.Wpf">
+      <HintPath>Libs\WriteableBitmapEx.Wpf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -130,6 +136,12 @@
     <Compile Include="Views\Tabs\FasenTab\RISViewModels\RISSystemITFViewModel.cs" />
     <Compile Include="Views\Tabs\FasenTab\Tabs\FasenRISTabViewModel.cs">
       <DependentUpon>FasenRISTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tabs\InterSignaalGroepTab2\InterSignaalGroepTab2.xaml.cs">
+      <DependentUpon>InterSignaalGroepTab2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tabs\InterSignaalGroepTab2\InterSignaalGroepTabViewModel.cs">
+      <DependentUpon>InterSignaalGroepTab2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Tabs\InterSignaalGroepTab\DataTypes\LateReleaseView.xaml.cs">
       <DependentUpon>LateReleaseView.xaml</DependentUpon>
@@ -608,6 +620,10 @@
     <Page Include="Views\Tabs\FasenTab\Tabs\FasenRISTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tabs\InterSignaalGroepTab2\InterSignaalGroepTab2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Tabs\InterSignaalGroepTab\DataTypes\LateReleaseView.xaml">
       <SubType>Designer</SubType>

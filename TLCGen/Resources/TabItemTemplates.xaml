@@ -11,6 +11,9 @@
     <DataTemplate DataType="{x:Type vm:SynchronisatiesTabViewModel}">
         <vw:InterSignaalGroepTab />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SynchronisatiesTabViewModel2}">
+        <vw:SynchronisatiesTab2 />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type vm:ModulesTabViewModel}">
         <vw:ModulesTab />
     </DataTemplate>
