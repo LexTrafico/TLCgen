@@ -11,7 +11,7 @@ using TLCGen.Plugins.RangeerElementen.ViewModels;
 
 namespace TLCGen.Plugins.RangeerElementen
 {
-    [TLCGenTabItem(-1, TabItemTypeEnum.DetectieTab)]
+    [TLCGenTabItem(-1, TabItemTypeEnum.SpecialsTab)]
     [TLCGenPlugin(
         TLCGenPluginElems.TabControl |
         TLCGenPluginElems.XMLNodeWriter |
@@ -67,19 +67,19 @@ namespace TLCGen.Plugins.RangeerElementen
         public string DisplayName => "Rangeer elementen";
         public ImageSource Icon => null;
 
-        DataTemplate _ContentDataTemplate;
+        private DataTemplate _contentDataTemplate;
         public DataTemplate ContentDataTemplate
         {
             get
             {
-                if (_ContentDataTemplate == null)
+                if (_contentDataTemplate == null)
                 {
-                    _ContentDataTemplate = new DataTemplate();
+                    _contentDataTemplate = new DataTemplate();
                     var tab = new FrameworkElementFactory(typeof(RangeerElementenTabView));
-                    tab.SetValue(RangeerElementenTabView.DataContextProperty, _rangeerElementenVm);
-                    _ContentDataTemplate.VisualTree = tab;
+                    tab.SetValue(FrameworkElement.DataContextProperty, _rangeerElementenVm);
+                    _contentDataTemplate.VisualTree = tab;
                 }
-                return _ContentDataTemplate;
+                return _contentDataTemplate;
             }
         }
 
