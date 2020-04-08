@@ -1024,6 +1024,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\VersionInfo\0.7.4.0.rtf" />
     <None Include="tlcgenversioning">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
