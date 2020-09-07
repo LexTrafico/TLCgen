@@ -7,6 +7,7 @@ static void update_cyclustimer(count cyclustijd)
 	star_cyclustimer -= 1;
 	star_cyclustimer += TS;
 	star_cyclustimer = star_cyclustimer % cyclustijd + 1;
+	DICG_TX_timer = star_cyclustimer;
 }
 
 boolv periode(count	cyclustijd, count cyclustimer, count begin_groen, count einde_groen)

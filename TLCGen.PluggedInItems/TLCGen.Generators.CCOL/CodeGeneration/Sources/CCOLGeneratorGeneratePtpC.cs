@@ -1,39 +1,39 @@
 ﻿using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
     public partial class CCOLGenerator
     {
-        private string GeneratePtpC(ControllerModel controller)
+        private string GeneratePtpC(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            var _hptp = CCOLGeneratorSettingsProvider.Default.GetElementName("hptp");
-            var _prmptp = CCOLGeneratorSettingsProvider.Default.GetElementName("prmptp");
-            var _usptp = CCOLGeneratorSettingsProvider.Default.GetElementName("usptp");
-            var _usptperr = CCOLGeneratorSettingsProvider.Default.GetElementName("userr");
-            var _usptpoke = CCOLGeneratorSettingsProvider.Default.GetElementName("usoke");
-            var _hptpiks = CCOLGeneratorSettingsProvider.Default.GetElementName("hiks");
-            var _hptpuks = CCOLGeneratorSettingsProvider.Default.GetElementName("huks");
-            var _hptpoke = CCOLGeneratorSettingsProvider.Default.GetElementName("hoke");
-            var _hptperr = CCOLGeneratorSettingsProvider.Default.GetElementName("herr");
-            var _hptperr0 = CCOLGeneratorSettingsProvider.Default.GetElementName("herr0");
-            var _hptperr1 = CCOLGeneratorSettingsProvider.Default.GetElementName("herr1");
-            var _hptperr2 = CCOLGeneratorSettingsProvider.Default.GetElementName("herr2");
-            var _prmptpiks = CCOLGeneratorSettingsProvider.Default.GetElementName("prmiks");
-            var _prmptpuks = CCOLGeneratorSettingsProvider.Default.GetElementName("prmuks");
-            var _prmptpoke = CCOLGeneratorSettingsProvider.Default.GetElementName("prmoke");
-            var _prmptperr = CCOLGeneratorSettingsProvider.Default.GetElementName("prmerr");
-            var _prmptperr0 = CCOLGeneratorSettingsProvider.Default.GetElementName("prmerr0");
-            var _prmptperr1 = CCOLGeneratorSettingsProvider.Default.GetElementName("prmerr1");
-            var _prmptperr2 = CCOLGeneratorSettingsProvider.Default.GetElementName("prmerr2");
-            var _prmportnr = CCOLGeneratorSettingsProvider.Default.GetElementName("prmportnr");
-            var _prmsrc = CCOLGeneratorSettingsProvider.Default.GetElementName("prmsrc");
-            var _prmdest = CCOLGeneratorSettingsProvider.Default.GetElementName("prmdest");
-            var _prmtmsgw = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtmsgw");
-            var _prmtmsgs = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtmsgs");
-            var _prmtmsga = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtmsga");
-            var _prmcmsg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmcmsg");
+            var _hptp = settingsProvider.GetElementName("hptp");
+            var _prmptp = settingsProvider.GetElementName("prmptp");
+            var _usptp = settingsProvider.GetElementName("usptp");
+            var _usptperr = settingsProvider.GetElementName("userr");
+            var _usptpoke = settingsProvider.GetElementName("usoke");
+            var _hptpiks = settingsProvider.GetElementName("hiks");
+            var _hptpuks = settingsProvider.GetElementName("huks");
+            var _hptpoke = settingsProvider.GetElementName("hoke");
+            var _hptperr = settingsProvider.GetElementName("herr");
+            var _hptperr0 = settingsProvider.GetElementName("herr0");
+            var _hptperr1 = settingsProvider.GetElementName("herr1");
+            var _hptperr2 = settingsProvider.GetElementName("herr2");
+            var _prmptpiks = settingsProvider.GetElementName("prmiks");
+            var _prmptpuks = settingsProvider.GetElementName("prmuks");
+            var _prmptpoke = settingsProvider.GetElementName("prmoke");
+            var _prmptperr = settingsProvider.GetElementName("prmerr");
+            var _prmptperr0 = settingsProvider.GetElementName("prmerr0");
+            var _prmptperr1 = settingsProvider.GetElementName("prmerr1");
+            var _prmptperr2 = settingsProvider.GetElementName("prmerr2");
+            var _prmportnr = settingsProvider.GetElementName("prmportnr");
+            var _prmsrc = settingsProvider.GetElementName("prmsrc");
+            var _prmdest = settingsProvider.GetElementName("prmdest");
+            var _prmtmsgw = settingsProvider.GetElementName("prmtmsgw");
+            var _prmtmsgs = settingsProvider.GetElementName("prmtmsgs");
+            var _prmtmsga = settingsProvider.GetElementName("prmtmsga");
+            var _prmcmsg = settingsProvider.GetElementName("prmcmsg");
 
             var sb = new StringBuilder();
             sb.AppendLine("/* APPLICATIE PTP-KOPPELINGEN */");

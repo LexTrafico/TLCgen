@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -32,13 +32,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 #pragma warning restore 0649
 
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
             _myBitmapInputs = new List<CCOLIOElement>();
 
-            _myElements.Add(new CCOLElement(_mperiod, CCOLElementTypeEnum.GeheugenElement, "Onthouden actieve periode"));
+            _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement($"{_mperiod}", CCOLElementTypeEnum.GeheugenElement, "Onthouden actieve periode"));
             _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement($"{_prmfb}", c.Data.Fasebewaking, CCOLElementTimeTypeEnum.TS_type, _prmfb));
 
             // Onthouden drukknop meldingen
@@ -117,19 +117,19 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             {
                 foreach (var fc in c.Fasen.Where(x => x.Type == FaseTypeEnum.Auto && !(x.Naam.Length == 3 && x.Naam.StartsWith("9"))))
                 {
-                    _myElements.Add(new CCOLElement($"ovmextragroen_{fc.Naam}", 0, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"ovmmindergroen_{fc.Naam}", 0, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter));
+                    _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement($"ovmextragroen_{fc.Naam}", 0, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter, $"OVM extra groen fase {fc.Naam}"));
+                    _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement($"ovmmindergroen_{fc.Naam}", 0, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter, $"OVM minder groen fase {fc.Naam}"));
                 }
             }
 
             // Logging TFB max
             if (c.Data.PrmLoggingTfbMax)
             {
-                _myElements.Add(new CCOLElement("tfbfc", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("tfbmax", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("tfbtijd", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("tfbdat", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("tfbjaar", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement("tfbfc", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Logging TFB max fc"));
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement("tfbmax", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Logging TFB max waarde"));
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement("tfbtijd", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Logging TFB max tijd"));
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement("tfbdat", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Logging TFB max datum"));
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement("tfbjaar", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Logging TFB max jaar"));
             }
 
             // Cyclustijdmeting
@@ -474,12 +474,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
-            _mperiod = CCOLGeneratorSettingsProvider.Default.GetElementName("mperiod");
+            _hplact = settingsProvider.GetElementName("hplact");
+            _mperiod = settingsProvider.GetElementName("mperiod");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

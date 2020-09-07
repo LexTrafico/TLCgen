@@ -9,9 +9,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TLCGen.Generators.CCOL.CodeGeneration;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Helpers;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
+using TLCGen.Generators.Shared.SettingsUI;
+using TLCGen.Messaging.Messages;
 using TLCGen.Models.Enumerations;
 using TLCGen.Plugins;
 
@@ -36,7 +38,7 @@ namespace TLCGen.Generators.CCOL
 
         public string GetGeneratorVersion()
         {
-            return "0.7.1.0";
+            return "0.8.0.0";
         }
 
         public string GetPluginName()
@@ -427,10 +429,20 @@ namespace TLCGen.Generators.CCOL
 
         private void ShowSettingsCommand_Executed(object obj)
         {
+            
+            var order = "";
+            foreach (var cpg in CCOLGenerator.OrderedPieceGenerators)
+            {
+                foreach(var p in cpg.Value)
+                {
+                    order += $"{cpg.Key} [{p.Key}] - {p.Value.GetType().Name}" + Environment.NewLine;
+                }
+            }
+
             var w = new CCOLGeneratorSettingsView
             {
                 DataContext =
-                    new CCOLGeneratorSettingsViewModel(CCOLGeneratorSettingsProvider.Default.Settings, _generator)
+                    new CCOLGeneratorSettingsViewModel(CCOLGeneratorSettingsProvider.Default.Settings, order)
             };
             var window = new Window
             {

@@ -3,29 +3,36 @@
   <VisualSettings>
     <CCOLIncludesPaden>C:\Personal Applications\CCOL80\WIN32\INCLUDE;C:\Personal Applications\CCOL80\INCLUDE;</CCOLIncludesPaden>
     <CCOLLibsPath>C:\Personal Applications\CCOL80\WIN32\LIB;</CCOLLibsPath>
-    <CCOLLibs>CCOLMAIN.LIB;CCOLREG.LIB;CCOLSIM.LIB;CCOLVLOG.LIB;LWMLFUNC.LIB;STDFUNC.LIB;</CCOLLibs>
+    <CCOLLibs />
     <CCOLResPath>C:\Personal Applications\CCOL80\WIN32\RES;</CCOLResPath>
     <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
   </VisualSettings>
   <VisualSettings9>
     <CCOLIncludesPaden>C:\Personal Applications\CCOL90\WIN32\INCLUDE;C:\Personal Applications\CCOL90\INCLUDE;</CCOLIncludesPaden>
     <CCOLLibsPath>C:\Personal Applications\CCOL90\WIN32\LIB;</CCOLLibsPath>
-    <CCOLLibs>CCOLMAIN.LIB;CCOLREG.LIB;CCOLSIM.LIB;CCOLVLOG.LIB;LWMLFUNC.LIB;STDFUNC.LIB;</CCOLLibs>
+    <CCOLLibs />
     <CCOLResPath>C:\Personal Applications\CCOL90\WIN32\RES;</CCOLResPath>
     <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
   </VisualSettings9>
   <VisualSettings95>
     <CCOLIncludesPaden>C:\Personal Applications\CCOL95\WIN32\INCLUDE;C:\Personal Applications\CCOL95\INCLUDE;</CCOLIncludesPaden>
     <CCOLLibsPath>C:\Personal Applications\CCOL95\WIN32\LIB;</CCOLLibsPath>
-    <CCOLLibs>CCOLMAIN.LIB;CCOLREG.LIB;CCOLSIM.LIB;CCOLVLOG.LIB;LWMLFUNC.LIB;STDFUNC.LIB;</CCOLLibs>
+    <CCOLLibs />
     <CCOLResPath>C:\Personal Applications\CCOL95\WIN32\RES;</CCOLResPath>
     <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
   </VisualSettings95>
   <VisualSettings100>
     <CCOLIncludesPaden>C:\Personal Applications\CCOL100\WIN32\INCLUDE;C:\Personal Applications\CCOL100\INCLUDE;</CCOLIncludesPaden>
     <CCOLLibsPath>C:\Personal Applications\CCOL100\WIN32\LIB;</CCOLLibsPath>
-    <CCOLLibs>CCOLMAIN.LIB;CCOLREG.LIB;CCOLSIM.LIB;CCOLVLOG.LIB;LWMLFUNC.LIB;STDFUNC.LIB;</CCOLLibs>
+    <CCOLLibs />
     <CCOLResPath>C:\Personal Applications\CCOL100\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings100>
+  <VisualSettings100>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL110\WIN32\INCLUDE;C:\Personal Applications\CCOL110\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL110\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL110\WIN32\RES;</CCOLResPath>
     <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
   </VisualSettings100>
   <Prefixes>
@@ -1903,6 +1910,12 @@
             <Setting>risvend</Setting>
             <Type>Parameter</Type>
             <Description>Afstand van stopstreep tot einde verleng gebied RIS fase _E1_</Description>
+          </Setting>
+          <Setting>
+            <Default>ris</Default>
+            <Setting>ris</Setting>
+            <Type>Schakelaar</Type>
+            <Description>Wel/niet aanroepen ris_controller</Description>
           </Setting>
           <Setting>
             <Default>rissim</Default>

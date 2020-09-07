@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using TLCGen.Generators.CCOL.CodeGeneration;
+using TLCGen.Generators.Shared;
 using TLCGen.Models;
 using TLCGen.Plugins.Timings.Models;
 
@@ -18,7 +15,7 @@ namespace TLCGen.Plugins.Timings
             sb.AppendLine("/* DEFINITIE FCTMING FUNCTIES */");
             sb.AppendLine("/* -------------------------- */");
             sb.AppendLine();
-            sb.Append(CCOLHeaderGenerator.GenerateFileHeader(c.Data, "fctimings.c"));
+            sb.Append(CCOLHeaderGenerator.GenerateFileHeader(c.Data, "fctimings.c", "1.0.0.0"));
             sb.AppendLine();
             sb.Append(CCOLHeaderGenerator.GenerateVersionHeader(c.Data));
             sb.AppendLine();

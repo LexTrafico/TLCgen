@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -25,7 +25,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _hprioin;
         private string _prmda;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             
@@ -180,13 +180,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return sb.ToString();
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hprioin = CCOLGeneratorSettingsProvider.Default.GetElementName("hprioin");
-            _hpriouit = CCOLGeneratorSettingsProvider.Default.GetElementName("hpriouit");
-            _prmda = CCOLGeneratorSettingsProvider.Default.GetElementName("prmda");
+            _hprioin = settingsProvider.GetElementName("hprioin");
+            _hpriouit = settingsProvider.GetElementName("hpriouit");
+            _prmda = settingsProvider.GetElementName("prmda");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

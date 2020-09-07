@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Xml;
 using TLCGen.Generators.CCOL.CodeGeneration;
+using TLCGen.Generators.Shared;
 using TLCGen.Helpers;
 using TLCGen.Models;
 using TLCGen.Plugins.RangeerElementen.Models;

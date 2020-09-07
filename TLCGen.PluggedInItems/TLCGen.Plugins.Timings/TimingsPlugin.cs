@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.CodeGeneration;
-using TLCGen.Generators.CCOL.Settings;
+using TLCGen.Generators.Shared;
 using TLCGen.Helpers;
 using TLCGen.Models;
 using TLCGen.Models.Enumerations;
@@ -176,7 +174,7 @@ namespace TLCGen.Plugins.Timings
             return true;
         }
 
-        public List<object> GetAllItems()
+        public List<object> GetAllItems(Dictionary<string, string> prefixes)
         {
             return new List<object>();
         }
@@ -190,12 +188,12 @@ namespace TLCGen.Plugins.Timings
             return true;
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
         }
 

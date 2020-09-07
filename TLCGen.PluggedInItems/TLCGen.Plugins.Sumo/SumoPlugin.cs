@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Xml;
 using TLCGen.Extensions;
 using TLCGen.Generators.CCOL.CodeGeneration;
+using TLCGen.Generators.Shared;
 using TLCGen.Helpers;
 using TLCGen.Models;
 

@@ -1,0 +1,283 @@
+﻿<?xml version="1.0"?>
+<CCOLGeneratorSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VisualSettings>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL80\WIN32\INCLUDE;C:\Personal Applications\CCOL80\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL80\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL80\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
+  </VisualSettings>
+  <VisualSettings9>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL90\WIN32\INCLUDE;C:\Personal Applications\CCOL90\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL90\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL90\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
+  </VisualSettings9>
+  <VisualSettings95>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL95\WIN32\INCLUDE;C:\Personal Applications\CCOL95\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL95\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL95\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings95>
+  <VisualSettings100>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL100\WIN32\INCLUDE;C:\Personal Applications\CCOL100\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL100\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL100\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings100>
+  <VisualSettings100>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL110\WIN32\INCLUDE;C:\Personal Applications\CCOL110\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL110\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL110\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings100>
+  <Prefixes>
+    <Prefix>
+      <Default>fc</Default>
+      <Setting>fc</Setting>
+      <Type>Prefix</Type>
+      <Description>Fase</Description>
+    </Prefix>
+    <Prefix>
+      <Default>d</Default>
+      <Setting>d</Setting>
+      <Type>Prefix</Type>
+      <Description>Detector</Description>
+    </Prefix>
+    <Prefix>
+      <Default>us</Default>
+      <Setting>us</Setting>
+      <Type>Prefix</Type>
+      <Description>Uitgang</Description>
+    </Prefix>
+    <Prefix>
+      <Default>is</Default>
+      <Setting>is</Setting>
+      <Type>Prefix</Type>
+      <Description>Ingang</Description>
+    </Prefix>
+    <Prefix>
+      <Default>h</Default>
+      <Setting>h</Setting>
+      <Type>Prefix</Type>
+      <Description>HulpElement</Description>
+    </Prefix>
+    <Prefix>
+      <Default>c</Default>
+      <Setting>c</Setting>
+      <Type>Prefix</Type>
+      <Description>Counter</Description>
+    </Prefix>
+    <Prefix>
+      <Default>t</Default>
+      <Setting>t</Setting>
+      <Type>Prefix</Type>
+      <Description>Timer</Description>
+    </Prefix>
+    <Prefix>
+      <Default>sch</Default>
+      <Setting>sch</Setting>
+      <Type>Prefix</Type>
+      <Description>Schakelaar</Description>
+    </Prefix>
+    <Prefix>
+      <Default>m</Default>
+      <Setting>m</Setting>
+      <Type>Prefix</Type>
+      <Description>GeheugenElement</Description>
+    </Prefix>
+    <Prefix>
+      <Default>prm</Default>
+      <Setting>prm</Setting>
+      <Type>Prefix</Type>
+      <Description>Parameter</Description>
+    </Prefix>
+  </Prefixes>
+  <CodePieceGeneratorSettings>
+    <CodePieceGenerator CodePiece="AlgemeenCodeGenerator">
+      <CodePieceData>
+        <ClassName>AlgemeenCodeGenerator</ClassName>
+        <Description>Algemeen</Description>
+        <ElementGenerationOrder>10</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>itfb</Default>
+            <Setting>itfb</Setting>
+            <Type>Parameter</Type>
+            <Description>Fasebewakingstijd</Description>
+          </Setting>
+          <Setting>
+            <Default>agar</Default>
+            <Setting>agar</Setting>
+            <Type>Parameter</Type>
+            <Description>Ondergrens groentijd alternatieve realisatie _E1_</Description>
+          </Setting>
+          <Setting>
+            <Default>dfst</Default>
+            <Setting>dfst</Setting>
+            <Type>Parameter</Type>
+            <Description>Percentage star uitverlengen bij det. storing _E1_</Description>
+          </Setting>
+          <Setting>
+            <Setting>fix</Setting>
+            <Default>fix</Default>
+            <Type>Ingang</Type>
+            <Description>Fixatie</Description>
+          </Setting>
+          <Setting>
+            <Setting>ttp</Setting>
+            <Default>ttp</Default>
+            <Type>GeheugenElement</Type>
+            <Description></Description>
+          </Setting>
+          <Setting>
+            <Setting>teg</Setting>
+            <Default>teg</Default>
+            <Type>GeheugenElement</Type>
+            <Description></Description>
+          </Setting>
+          <Setting>
+            <Setting>sgd</Setting>
+            <Default>sgd</Default>
+            <Type>GeheugenElement</Type>
+            <Description></Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="DetectieAanvragenCodeGenerator">
+      <CodePieceData>
+        <ClassName>DetectieAanvragenCodeGenerator</ClassName>
+        <Description>Aanvragen detectie</Description>
+        <ElementGenerationOrder>20</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>avr</Default>
+            <Setting>avr</Setting>
+            <Type>Parameter</Type>
+            <Description>Aanvraag functie lus _M1_</Description>
+          </Setting>
+          <Setting>
+            <Setting>cyar</Setting>
+            <Default>cyar</Default>
+            <Type>Parameter</Type>
+            <Description>Cyclische aanvraag met vertraging fase _M1_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="GroentijdenCodeGenerator">
+      <CodePieceData>
+        <ClassName>GroentijdenCodeGenerator</ClassName>
+        <Description>Groentijden</Description>
+        <ElementGenerationOrder>30</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>mg</Default>
+            <Setting>mg</Setting>
+            <Type>Parameter</Type>
+            <Description>Maximum groen fase _M1_ voor _M2_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="KlokBehandelingCodeGenerator">
+      <CodePieceData>
+        <ClassName>KlokBehandelingCodeGenerator</ClassName>
+        <Description>Klokbehandeling</Description>
+        <ElementGenerationOrder>40</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>per</Default>
+            <Setting>per</Setting>
+            <Type>Uitgang</Type>
+            <Description>Verklikken actief zijn periode _M1_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="MeeverlengGroenCodeGenerator">
+      <CodePieceData>
+        <ClassName>MeeverlengGroenCodeGenerator</ClassName>
+        <Description>Meeverlenggroen</Description>
+        <ElementGenerationOrder>50</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>mv</Default>
+            <Setting>mv</Setting>
+            <Type>Parameter</Type>
+            <Description>Meeverleng functie fase _M1_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="ModulenStructuurCodeGenerator">
+      <CodePieceData>
+        <ClassName>ModulenStructuurCodeGenerator</ClassName>
+        <Description>Module structuur</Description>
+        <ElementGenerationOrder>60</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>stap</Default>
+            <Setting>stap</Setting>
+            <Type>Uitgang</Type>
+            <Description>Stap uitgang</Description>
+          </Setting>
+          <Setting>
+            <Setting>blok</Setting>
+            <Default>blok</Default>
+            <Type>Uitgang</Type>
+            <Description>Blok _M1_ actief</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="VeiligheidsGroenCodeGenerator">
+      <CodePieceData>
+        <ClassName>VeiligheidsGroenCodeGenerator</ClassName>
+        <Description>Veiligheidsgroen</Description>
+        <ElementGenerationOrder>70</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>vag4</Default>
+            <Setting>vag4</Setting>
+            <Type>Timer</Type>
+            <Description>Veiligheidsgroen maximum fase _M1_</Description>
+          </Setting>
+          <Setting>
+            <Default>vt</Default>
+            <Setting>vt</Setting>
+            <Type>Timer</Type>
+            <Description>Veiligheidsgroen volgtijd fase _M1_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+    <CodePieceGenerator CodePiece="VerlengenCodeGenerator">
+      <CodePieceData>
+        <ClassName>VerlengenCodeGenerator</ClassName>
+        <Description>Verlenggroen</Description>
+        <ElementGenerationOrder>80</ElementGenerationOrder>
+        <Settings>
+          <Setting>
+            <Default>vag1</Default>
+            <Setting>vag1</Setting>
+            <Type>Timer</Type>
+            <Description>Koplus maximum fase _M1_</Description>
+          </Setting>
+          <Setting>
+            <Default>vag</Default>
+            <Setting>vag</Setting>
+            <Type>Parameter</Type>
+            <Description>Verleng functie detector _M1_</Description>
+          </Setting>
+        </Settings>
+      </CodePieceData>
+    </CodePieceGenerator>
+  </CodePieceGeneratorSettings>
+  <TabSpaceSerialized>ssss</TabSpaceSerialized>
+</CCOLGeneratorSettings>

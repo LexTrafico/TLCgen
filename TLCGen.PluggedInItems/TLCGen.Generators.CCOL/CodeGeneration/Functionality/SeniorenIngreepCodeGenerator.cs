@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 {
@@ -21,7 +21,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _tnlsgd;
         private string _uswt;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -166,13 +166,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return sb.ToString();
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _tnlsg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsg");
-            _tnlsgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsgd");
-            _uswt = CCOLGeneratorSettingsProvider.Default.GetElementName("uswt");
+            _tnlsg = settingsProvider.GetElementName("tnlsg");
+            _tnlsgd = settingsProvider.GetElementName("tnlsgd");
+            _uswt = settingsProvider.GetElementName("uswt");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

@@ -421,7 +421,7 @@ namespace TLCGen.ViewModels
                 Messenger.Default.Send(new UpdateTabsEnabledMessage());
                 GuiActionsManager.SetStatusBarMessage(
                     DateTime.Now.ToLongTimeString() +
-                    " - Regeling " + TLCGenControllerDataProvider.Default.Controller.Data.Naam ?? "" + " opgeslagen");
+                    " - Regeling " + (TLCGenControllerDataProvider.Default.Controller.Data.Naam ?? "") + " opgeslagen");
                 FileSaved?.Invoke(this, TLCGenControllerDataProvider.Default.ControllerFileName);
             }
         }
@@ -442,7 +442,7 @@ namespace TLCGen.ViewModels
                 RaisePropertyChanged(nameof(ProgramTitle));
                 GuiActionsManager.SetStatusBarMessage(
                     DateTime.Now.ToLongTimeString() +
-                    " - Regeling " + TLCGenControllerDataProvider.Default.Controller.Data.Naam ?? "" + " opgeslagen");
+                    " - Regeling " + (TLCGenControllerDataProvider.Default.Controller.Data.Naam ?? "") + " opgeslagen");
                 FileSaved?.Invoke(this, TLCGenControllerDataProvider.Default.ControllerFileName);
             }
         }
@@ -753,9 +753,9 @@ namespace TLCGen.ViewModels
                 ControllerVM.Controller = TLCGenControllerDataProvider.Default.Controller;
                 Messenger.Default.Send(new ControllerFileNameChangedMessage(TLCGenControllerDataProvider.Default.ControllerFileName, lastfilename));
                 Messenger.Default.Send(new UpdateTabsEnabledMessage());
-                RaisePropertyChanged("ProgramTitle");
-                RaisePropertyChanged("HasController");
-                RaisePropertyChanged("ControllerVersion");
+                RaisePropertyChanged(nameof(ProgramTitle));
+                RaisePropertyChanged(nameof(HasController));
+                RaisePropertyChanged(nameof(ControllerVersion));
                 FileOpened?.Invoke(this, TLCGenControllerDataProvider.Default.ControllerFileName);
                 var jumpTask = new JumpTask
                 {
@@ -764,6 +764,10 @@ namespace TLCGen.ViewModels
                 };
                 JumpList.AddToRecentCategory(jumpTask);
                 ShowAlertMessage = Version.Parse(ControllerVersion) < VersionFiles.Max(x => x.Item1);
+                if (ControllerVM.Controller != null && !string.IsNullOrEmpty(ControllerVM.Controller.Data.GeneratorType))
+                {
+                    SelectedGenerator = Generators.FirstOrDefault(x => x.Generator.GetGeneratorName() == ControllerVM.Controller.Data.GeneratorType) ?? Generators.FirstOrDefault();
+                }
                 return true;
             }
             if (filename != null) FileOpenFailed?.Invoke(this, filename);

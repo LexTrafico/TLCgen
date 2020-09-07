@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TLCGen.Generators.CCOL.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -47,7 +47,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return dmVerl;
         }
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 

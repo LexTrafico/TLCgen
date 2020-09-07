@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Integrity;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -36,7 +36,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _hplact;
         private string _hpeltegenh;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
@@ -476,21 +476,21 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _isfix = CCOLGeneratorSettingsProvider.Default.GetElementName("isfix");
-            _tnlsg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsg");
-            _tnlfg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlfg");
-            _tnleg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnleg");
-            _tnlcv = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcv");
-            _tnlsgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsgd");
-            _tnlfgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlfgd");
-            _tnlegd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlegd");
-            _tnlcvd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcvd");
-            _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
-            _hpeltegenh = CCOLGeneratorSettingsProvider.Default.GetElementName("hpeltegenh");
+            _isfix = settingsProvider.GetElementName("isfix");
+            _tnlsg = settingsProvider.GetElementName("tnlsg");
+            _tnlfg = settingsProvider.GetElementName("tnlfg");
+            _tnleg = settingsProvider.GetElementName("tnleg");
+            _tnlcv = settingsProvider.GetElementName("tnlcv");
+            _tnlsgd = settingsProvider.GetElementName("tnlsgd");
+            _tnlfgd = settingsProvider.GetElementName("tnlfgd");
+            _tnlegd = settingsProvider.GetElementName("tnlegd");
+            _tnlcvd = settingsProvider.GetElementName("tnlcvd");
+            _hplact = settingsProvider.GetElementName("hplact");
+            _hpeltegenh = settingsProvider.GetElementName("hpeltegenh");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
@@ -28,7 +28,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
         private CCOLGeneratorCodeStringSettingModel _thd;
 #pragma warning restore 0649
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();

@@ -4,6 +4,7 @@ using System.Text;
 using TLCGen.Extensions;
 using TLCGen.Generators.CCOL.Extensions;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {

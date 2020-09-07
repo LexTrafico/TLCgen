@@ -87,8 +87,6 @@
     <Compile Include="CodeGeneration\Functionality\VLOGCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\AlgemeenCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\WachttijdVoorspellerCodeGenerator.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLCodeHelper.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLKoppelSignaal.cs" />
     <Compile Include="CodeGeneration\Sources\CCOLGeneratorGeneratePrioC.cs" />
     <Compile Include="CodeGeneration\Sources\CCOLGeneratorGeneratePractice.cs" />
     <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateHstC.cs" />
@@ -97,19 +95,9 @@
     <Compile Include="GeneratorUI\CCOLGeneratorViewModel.cs">
       <DependentUpon>CCOLGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\CCOLGeneratorSettingTypeEnum.cs" />
-    <Compile Include="Settings\CCOLGeneratorStringSettingModel.cs" />
-    <Compile Include="Settings\CCOLGeneratorFolderSettingModel.cs" />
-    <Compile Include="Settings\CCOLGeneratorVisualSettingsModel.cs" />
-    <Compile Include="Settings\SettingsUI\CCOLGeneratorSettingsView.xaml.cs">
-      <DependentUpon>CCOLGeneratorSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\SettingsUI\CCOLGeneratorSettingsViewModel.cs" />
     <Compile Include="GeneratorUI\CCOLGeneratorView.xaml.cs">
       <DependentUpon>CCOLGeneratorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CodeGeneration\Functionality\HelperClasses\CCOLCodePieceGeneratorAttribute.cs" />
-    <Compile Include="CodeGeneration\Functionality\HelperClasses\CCOLCodePieceGeneratorBase.cs" />
     <Compile Include="CodeGeneration\Functionality\DetectieAanvragenMeetkriteriumCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\PeriodenGroentijdenCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\RichtingGevoeligCodeGenerator.cs" />
@@ -118,35 +106,17 @@
     <Compile Include="CodeGeneration\Functionality\VasteAanvraagCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\WachtstandGroenCodeGenerator.cs" />
     <Compile Include="CodeGeneration\Functionality\WaitsignalenCodeGenerator.cs" />
-    <Compile Include="CodeGeneration\Enums\CCOLElementTimeTypeEnum.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLIOElement.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLElementCollector.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLElemListData.cs" />
-    <Compile Include="CodeGeneration\Enums\CCOLCodeTypeEnum.cs" />
-    <Compile Include="CodeGeneration\Enums\CCOLElementTypeEnum.cs" />
-    <Compile Include="CodeGeneration\HelperClasses\CCOLElement.cs" />
     <Compile Include="CodeGeneration\CCOLGenerator.cs" />
     <Compile Include="CodeGeneration\Adds\CCOLGeneratorGenerateSimAdd.cs" />
     <Compile Include="CodeGeneration\Adds\CCOLGeneratorGenerateTabAdd.cs" />
     <Compile Include="CodeGeneration\Adds\CCOLGeneratorGenerateSysAdd.cs" />
     <Compile Include="CodeGeneration\Adds\CCOLGeneratorGenerateDplAdd.cs" />
-    <Compile Include="CodeGeneration\Functionality\HelperClasses\ICCOLCodePieceGenerator.cs" />
     <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateRgvC.cs" />
-    <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateSimC.cs" />
-    <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateSysH.cs" />
-    <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateDplC.cs" />
-    <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateTabC.cs" />
     <Compile Include="CodeGeneration\Adds\CCOLGeneratorGenerateRegAdd.cs" />
     <Compile Include="CodeGeneration\Sources\CCOLGeneratorGenerateRegC.cs" />
     <Compile Include="CodeGeneration\CCOLGeneratorGeneral.cs" />
     <Compile Include="Extensions\TLCGenModelExtensions.cs" />
-    <Compile Include="ProjectGeneration\CCOLVisualProjectGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\CCOLGeneratorClassWithSettingsModel.cs" />
-    <Compile Include="Settings\CCOLGeneratorCodeStringSettingModel.cs" />
-    <Compile Include="Settings\CCOLGeneratorSettingsModel.cs" />
-    <Compile Include="Settings\CCOLGeneratorSettingsProvider.cs" />
-    <Compile Include="Settings\CodePieceSettingsTuple.cs" />
     <Content Include="SourceFiles\realfunc.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -200,10 +170,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Settings\SettingsUI\CCOLGeneratorSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GeneratorUI\CCOLGeneratorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -350,6 +316,10 @@
     <ProjectReference Include="..\..\TLCGen.Parts\TLCGen.Settings\TLCGen.Settings.csproj">
       <Project>{3C79B172-B6A4-41FB-9A83-8075A1B4A318}</Project>
       <Name>TLCGen.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TLCGen.Generators.Shared\TLCGen.Generators.Shared.csproj">
+      <Project>{7A39A8A6-806E-4B17-86CC-FBE37AC328C4}</Project>
+      <Name>TLCGen.Generators.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

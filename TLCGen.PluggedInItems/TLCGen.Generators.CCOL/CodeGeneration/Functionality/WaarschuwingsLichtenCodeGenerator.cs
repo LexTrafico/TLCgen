@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -25,7 +25,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 
         #endregion // Fields
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
@@ -117,13 +117,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hperiod = CCOLGeneratorSettingsProvider.Default.GetElementName("hperiod");
-            _prmperbel = CCOLGeneratorSettingsProvider.Default.GetElementName("prmperbel");
-            _prmperbeldim = CCOLGeneratorSettingsProvider.Default.GetElementName("prmperbeldim");
+            _hperiod = settingsProvider.GetElementName("hperiod");
+            _prmperbel = settingsProvider.GetElementName("prmperbel");
+            _prmperbeldim = settingsProvider.GetElementName("prmperbeldim");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

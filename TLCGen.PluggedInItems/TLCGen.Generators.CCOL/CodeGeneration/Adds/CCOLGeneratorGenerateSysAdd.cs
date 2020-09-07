@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {

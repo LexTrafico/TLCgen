@@ -84,6 +84,9 @@ namespace TLCGen.Models
         public string TLCGenVersie { get; set; }
 
         [Browsable(false)]
+        public string GeneratorType { get; set; }
+
+        [Browsable(false)]
         public List<SegmentDisplayElementModel> SegmentenDisplayBitmapData { get; set; }
 
         [Browsable(false)]

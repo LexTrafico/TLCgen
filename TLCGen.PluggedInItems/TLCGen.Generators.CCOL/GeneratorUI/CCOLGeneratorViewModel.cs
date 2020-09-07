@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,11 +8,12 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using TLCGen.Generators.CCOL.CodeGeneration;
-using TLCGen.Generators.CCOL.ProjectGeneration;
-using TLCGen.Generators.CCOL.Settings;
+using TLCGen.Generators.Shared;
+using TLCGen.Generators.Shared.ProjectGeneration;
 using TLCGen.Helpers;
 using TLCGen.Integrity;
 using TLCGen.Messaging.Messages;
+using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL
 {
@@ -118,7 +120,18 @@ namespace TLCGen.Generators.CCOL
         {
             var vVer = Regex.Replace(SelectedVisualProject, @"Visual.?([0-9]+).*", "$1");
             if (!int.TryParse(vVer, out var iVer)) return;
-            _projectGenerator.GenerateVisualStudioProjectFiles(_plugin, SelectedVisualProject.Replace(" ", "_"), iVer);
+            var settings = _plugin.Controller.Data.CCOLVersie switch
+            {
+                CCOLVersieEnum.CCOL8 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettings,
+                CCOLVersieEnum.CCOL9 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL9,
+                CCOLVersieEnum.CCOL95 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL95,
+                CCOLVersieEnum.CCOL100 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL100,
+                CCOLVersieEnum.CCOL110 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL110,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            var templateName = SelectedVisualProject.Replace(" ", "_");
+            var outputfilename = Path.Combine(Path.GetDirectoryName(_plugin.ControllerFileName) ?? throw new InvalidOperationException(), $"{_plugin.Controller.Data.Naam}_{templateName}.vcxproj");
+            _projectGenerator.GenerateVisualStudioProjectFiles(_plugin, "VisualTemplates", templateName, iVer, outputfilename, settings);
             Messenger.Default.Send(new ControllerProjectGeneratedMessage());
         }
 

@@ -123,6 +123,10 @@
       <Project>{3D0FCFC8-2C31-492C-BAA2-3AF8214ED6DF}</Project>
       <Name>TLCGen.Generators.CCOL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TLCGen.Generators.Shared\TLCGen.Generators.Shared.csproj">
+      <Project>{7A39A8A6-806E-4B17-86CC-FBE37AC328C4}</Project>
+      <Name>TLCGen.Generators.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>

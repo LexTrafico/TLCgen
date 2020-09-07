@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TLCGen.Generators.CCOL.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -19,7 +19,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _hfile;
         private string _hplact;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -249,12 +249,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hfile = CCOLGeneratorSettingsProvider.Default.GetElementName("hfile");
-            _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            _hfile = settingsProvider.GetElementName("hfile");
+            _hplact = settingsProvider.GetElementName("hplact");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

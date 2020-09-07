@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 using TLCGen.Settings;
 
@@ -101,7 +101,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 
         }
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
 		{
 			_myElements = new List<CCOLElement>();
 			_myBitmapOutputs = new List<CCOLIOElement>();
@@ -194,6 +194,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
                                     times[i] ?? 0,
                                     CCOLElementTimeTypeEnum.None,
                                     CCOLElementTypeEnum.Parameter,
+									CCOLGeneratorSettingsProvider.Default,
                                     CCOLGeneratorSettingsProvider.Default.GetElementDescription(_prmtx.Description, CCOLElementTypeEnum.Parameter, realisation == 1 ? "Eerste" : "Tweede", pl.Naam, fcpl.FaseCyclus, moments[i])));
                             }
                         }
@@ -1669,28 +1670,28 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 			}
 		}
 			
-		public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+		public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
 		{
-			_mperiod = CCOLGeneratorSettingsProvider.Default.GetElementName("mperiod");
-			_cvc = CCOLGeneratorSettingsProvider.Default.GetElementName("cvc");
-			_schmv = CCOLGeneratorSettingsProvider.Default.GetElementName("schmv");
-			_schwg = CCOLGeneratorSettingsProvider.Default.GetElementName("schwg");
-			_schca = CCOLGeneratorSettingsProvider.Default.GetElementName("schca");
-            _tnlsg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsg");
-			_tnlsgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsgd");
-			_tnlcv = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcv");
-			_tnlcvd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcvd");
-			_tnleg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnleg");
-			_tnlegd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlegd");
-			_huks = CCOLGeneratorSettingsProvider.Default.GetElementName("huks");
-            _hiks = CCOLGeneratorSettingsProvider.Default.GetElementName("hiks");
-            _prmxnl = CCOLGeneratorSettingsProvider.Default.GetElementName("prmxnl");
-            _hnla = CCOLGeneratorSettingsProvider.Default.GetElementName("hnla");
+			_mperiod = settingsProvider.GetElementName("mperiod");
+			_cvc = settingsProvider.GetElementName("cvc");
+			_schmv = settingsProvider.GetElementName("schmv");
+			_schwg = settingsProvider.GetElementName("schwg");
+			_schca = settingsProvider.GetElementName("schca");
+            _tnlsg = settingsProvider.GetElementName("tnlsg");
+			_tnlsgd = settingsProvider.GetElementName("tnlsgd");
+			_tnlcv = settingsProvider.GetElementName("tnlcv");
+			_tnlcvd = settingsProvider.GetElementName("tnlcvd");
+			_tnleg = settingsProvider.GetElementName("tnleg");
+			_tnlegd = settingsProvider.GetElementName("tnlegd");
+			_huks = settingsProvider.GetElementName("huks");
+            _hiks = settingsProvider.GetElementName("hiks");
+            _prmxnl = settingsProvider.GetElementName("prmxnl");
+            _hnla = settingsProvider.GetElementName("hnla");
 
-            _hprioin = CCOLGeneratorSettingsProvider.Default.GetElementName("hprioin");
-            _hpriouit = CCOLGeneratorSettingsProvider.Default.GetElementName("hpriouit");
+            _hprioin = settingsProvider.GetElementName("hprioin");
+            _hpriouit = settingsProvider.GetElementName("hpriouit");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
 		}
 	}
 }

@@ -1046,9 +1046,17 @@
       <Project>{3d0fcfc8-2c31-492c-baa2-3af8214ed6df}</Project>
       <Name>TLCGen.Generators.CCOL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TLCGen.PluggedInItems\TLCGen.Generators.YATLCCLC\TLCGen.Generators.TLCCC.csproj">
+    <ProjectReference Include="..\TLCGen.PluggedInItems\TLCGen.Generators.Shared\TLCGen.Generators.Shared.csproj">
+      <Project>{7a39a8a6-806e-4b17-86cc-fbe37ac328c4}</Project>
+      <Name>TLCGen.Generators.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TLCGen.PluggedInItems\TLCGen.Generators.TLCCC\TLCGen.Generators.TLCCC.csproj">
       <Project>{1687e431-d444-4d29-ab19-3688e47fb411}</Project>
       <Name>TLCGen.Generators.TLCCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TLCGen.PluggedInItems\TLCGen.Generators.Traffick\TLCGen.Generators.Traffick.csproj">
+      <Project>{fb0aa437-d6f4-4c1f-afc8-245c651a652f}</Project>
+      <Name>TLCGen.Generators.Traffick</Name>
     </ProjectReference>
     <ProjectReference Include="..\TLCGen.PluggedInItems\TLCGen.Importers.TabC\TLCGen.Importers.TabC.csproj">
       <Project>{cd24cd31-98fa-4f63-913e-9d3fbbd998fb}</Project>
@@ -1082,10 +1090,6 @@
       <Project>{6f5df100-b22b-40bc-a8c3-7f19817835f0}</Project>
       <Name>TLCGen.Specificator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TLCGen.Plugins.MultiSim\TLCGen.Plugins.MultiSim.csproj">
-      <Project>{4244bf1c-fbf7-4647-9d71-3c25e756b4e1}</Project>
-      <Name>TLCGen.Plugins.MultiSim</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\AppIcon.ico" />
@@ -1114,7 +1118,9 @@ copy "$(TargetDir)GalaSoft.MvvmLight.Platform.dll" "$(TargetDir)Updater"
 copy "$(TargetDir)System.Windows.Interactivity.dll" "$(TargetDir)Updater"
 move "$(TargetDir)TLCGen.Updater.exe" "$(TargetDir)Updater"
 move "$(TargetDir)TLCGen.Updater.exe.config" "$(TargetDir)Updater"
-move "$(TargetDir)TLCGen.Generators.*.dll" "$(TargetDir)Plugins"
+move "$(TargetDir)TLCGen.Generators.CCOL.dll" "$(TargetDir)Plugins"
+move "$(TargetDir)TLCGen.Generators.Traffick.dll" "$(TargetDir)Plugins"
+move "$(TargetDir)TLCGen.Generators.TLCCC.dll" "$(TargetDir)Plugins"
 move "$(TargetDir)TLCGen.Importers.*.dll" "$(TargetDir)Plugins"
 move "$(TargetDir)TLCGen.GebruikersOpties.dll" "$(TargetDir)Plugins"
 move "$(TargetDir)TLCGen.SpecialsRotterdam.dll" "$(TargetDir)Plugins"

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0"?>
+<VisualProjectGeneratorSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <VisualSettings>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL80\WIN32\INCLUDE;C:\Personal Applications\CCOL80\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL80\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL80\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
+  </VisualSettings>
+  <VisualSettings9>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL90\WIN32\INCLUDE;C:\Personal Applications\CCOL90\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL90\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL90\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions></CCOLPreprocessorDefinitions>
+  </VisualSettings9>
+  <VisualSettings95>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL95\WIN32\INCLUDE;C:\Personal Applications\CCOL95\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL95\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL95\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings95>
+  <VisualSettings100>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL100\WIN32\INCLUDE;C:\Personal Applications\CCOL100\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL100\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL100\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings100>
+  <VisualSettings100>
+    <CCOLIncludesPaden>C:\Personal Applications\CCOL110\WIN32\INCLUDE;C:\Personal Applications\CCOL110\INCLUDE;</CCOLIncludesPaden>
+    <CCOLLibsPath>C:\Personal Applications\CCOL110\WIN32\LIB;</CCOLLibsPath>
+    <CCOLLibs />
+    <CCOLResPath>C:\Personal Applications\CCOL110\WIN32\RES;</CCOLResPath>
+    <CCOLPreprocessorDefinitions>CCOLTIG;</CCOLPreprocessorDefinitions>
+  </VisualSettings100>
+</VisualProjectGeneratorSettings>

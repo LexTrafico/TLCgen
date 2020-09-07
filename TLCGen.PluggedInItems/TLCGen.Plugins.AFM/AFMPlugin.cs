@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
-using TLCGen.Generators.CCOL.CodeGeneration;
-using TLCGen.Generators.CCOL.Settings;
+using TLCGen.Generators.Shared;
 using TLCGen.Helpers;
 using TLCGen.Models;
 using TLCGen.Plugins.AFM.Models;
@@ -153,7 +151,7 @@ namespace TLCGen.Plugins.AFM
 
         #region CCOLCodePieceGenerator
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -161,37 +159,37 @@ namespace TLCGen.Plugins.AFM
             {
                 foreach (var fc in _afmModel.AFMFasen)
                 {
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_FC", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxCCOL", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxMin", fc.MinimaleGroentijd, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxMax", fc.MaximaleGroentijd, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxAct", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxGem", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Afgekapt", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxAFM", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Sturing", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Qlength", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_AbsBufferRuimte", 100, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_RelBufferRuimte", 100, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_RelBufferVulling", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_FC", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxCCOL", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxMin", fc.MinimaleGroentijd, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxMax", fc.MaximaleGroentijd, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxAct", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxGem", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Afgekapt", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_GmaxAFM", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Sturing", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_Qlength", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_AbsBufferRuimte", 100, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_RelBufferRuimte", 100, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                    _myElements.Add(new CCOLElement($"AFM{fc.FaseCyclus}_RelBufferVulling", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
                 }
-                _myElements.Add(new CCOLElement("AFM_Strikt", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_TC", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_TCgem", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_Watchdog", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_WatchdogReturn", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_Versie", 7, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_Test", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
-                _myElements.Add(new CCOLElement("AFM_Beinvloedbaar", 1, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter));
+                _myElements.Add(new CCOLElement("AFM_Strikt", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_TC", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_TCgem", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_Watchdog", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_WatchdogReturn", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_Versie", 7, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_Test", 0, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_Beinvloedbaar", 1, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider));
 
-                _myElements.Add(new CCOLElement("AFMLeven", CCOLElementTypeEnum.Uitgang));
+                _myElements.Add(new CCOLElement("AFMLeven", CCOLElementTypeEnum.Uitgang, settingsProvider));
 
-                _myElements.Add(new CCOLElement("AFMLeven", 120, CCOLElementTimeTypeEnum.TS_type, CCOLElementTypeEnum.Timer));
-                _myElements.Add(new CCOLElement("VRILeven", 60, CCOLElementTimeTypeEnum.TS_type, CCOLElementTypeEnum.Timer));
-                _myElements.Add(new CCOLElement("AFMExtraGroenBijFile", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar));
+                _myElements.Add(new CCOLElement("AFMLeven", 120, CCOLElementTimeTypeEnum.TS_type, CCOLElementTypeEnum.Timer, settingsProvider));
+                _myElements.Add(new CCOLElement("VRILeven", 60, CCOLElementTimeTypeEnum.TS_type, CCOLElementTypeEnum.Timer, settingsProvider));
+                _myElements.Add(new CCOLElement("AFMExtraGroenBijFile", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider));
 
-                _myElements.Add(new CCOLElement("AFMCIFParmWijz", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar));
-                _myElements.Add(new CCOLElement("AFM_overbrugging", 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar));
+                _myElements.Add(new CCOLElement("AFMCIFParmWijz", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider));
+                _myElements.Add(new CCOLElement("AFM_overbrugging", 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider));
             }
         }
 

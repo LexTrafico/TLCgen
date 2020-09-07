@@ -16,6 +16,7 @@ using System.Linq;
 using RelayCommand = GalaSoft.MvvmLight.CommandWpf.RelayCommand;
 using TLCGen.Messaging.Messages;
 using GongSolutions.Wpf.DragDrop;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.GebruikersOpties
 {
@@ -870,97 +871,105 @@ namespace TLCGen.GebruikersOpties
             return true;
         }
 
-        public Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum ConvertType(CCOLElementTypeEnum type)
+        public CCOLElementTimeTypeEnum ConvertType(CCOLElementTypeEnum type)
         {
             switch (type)
             {
                 case CCOLElementTypeEnum.TE_type:
-                    return Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.TE_type;
+                    return CCOLElementTimeTypeEnum.TE_type;
                 case CCOLElementTypeEnum.TS_type:
-                    return Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.TS_type;
+                    return CCOLElementTimeTypeEnum.TS_type;
                 case CCOLElementTypeEnum.TM_type:
-                    return Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.TM_type;
+                    return CCOLElementTimeTypeEnum.TM_type;
                 case CCOLElementTypeEnum.Geen:
                 default:
-                    return Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.None;
+                    return CCOLElementTimeTypeEnum.None;
             }
         }
 
-        public List<object> GetAllItems()
+        public List<object> GetAllItems(Dictionary<string, string> prefixes)
         {
             var AllElements = new List<object>();
 
             foreach (var elem in Uitgangen)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Uitgang,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["us"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Uitgang;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in Ingangen)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Ingang,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["is"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Ingang;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in HulpElementen)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.HulpElement,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["h"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.HulpElement;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in Timers)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        elem.Instelling.Value,
-                        ConvertType(elem.Type),
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Timer,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["t"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Timer;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in Counters)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        elem.Instelling.Value,
-                        Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.None,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Counter,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["c"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Counter;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in Schakelaars)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        elem.Instelling.Value,
-                        Generators.CCOL.CodeGeneration.CCOLElementTimeTypeEnum.SCH_type,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Schakelaar,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["sch"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Schakelaar;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in GeheugenElementen)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.GeheugenElement,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["m"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.GeheugenElement;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
             foreach (var elem in Parameters)
             {
-                AllElements.Add(
-                    new Generators.CCOL.CodeGeneration.CCOLElement(
-                        elem.Naam,
-                        elem.Instelling.Value,
-                        ConvertType(elem.Type),
-                        Generators.CCOL.CodeGeneration.CCOLElementTypeEnum.Parameter,
-                        elem.Commentaar){ Dummy = elem.Dummy });
+                var cElem = new CCOLElement();
+                cElem.Naam = elem.Naam;
+                cElem.Define = prefixes["prm"] + elem.Naam;
+                cElem.Type = Generators.Shared.CCOLElementTypeEnum.Parameter;
+                cElem.Dummy = elem.Dummy;
+                cElem.Commentaar = elem.Commentaar;
+                AllElements.Add(cElem);
             }
 
             return AllElements;

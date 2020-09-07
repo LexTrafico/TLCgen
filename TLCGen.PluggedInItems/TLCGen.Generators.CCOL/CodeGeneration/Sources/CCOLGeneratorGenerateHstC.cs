@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
@@ -76,7 +77,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void post_init_application_halfstar(void)");
 			sb.AppendLine("{");
 			
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPostInitApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPostInitApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}post_init_application_halfstar_Add();");
 
@@ -93,7 +94,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void pre_application_halfstar(void)");
 			sb.AppendLine("{");
 			
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPreApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPreApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}PreApplication_halfstar_Add();");
 
@@ -110,7 +111,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void KlokPerioden_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCKlokPerioden, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCKlokPerioden, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}KlokPerioden_halfstar_Add();");
 
@@ -127,7 +128,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Aanvragen_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCAanvragen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCAanvragen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Aanvragen_halfstar_Add();");
 
@@ -146,7 +147,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 				sb.AppendLine("void Maxgroen_halfstar(void)");
 				sb.AppendLine("{");
 
-                AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCMaxgroen, true, true, false, true);
+                CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCMaxgroen, true, true, false, true, ts);
 
                 sb.AppendLine($"{ts}Maxgroen_halfstar_Add();");
 
@@ -157,7 +158,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 				sb.AppendLine("void Verlenggroen_halfstar(void)");
 				sb.AppendLine("{");
 
-                AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCVerlenggroen, true, true, false, true);
+                CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCVerlenggroen, true, true, false, true, ts);
 
                 sb.AppendLine($"{ts}Maxgroen_halfstar_Add();");
 
@@ -175,7 +176,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Wachtgroen_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCWachtgroen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCWachtgroen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Wachtgroen_halfstar_Add();");
 
@@ -192,7 +193,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Meetkriterium_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCMeetkriterium, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCMeetkriterium, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Meetkriterium_halfstar_Add();");
 
@@ -209,7 +210,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Meeverlengen_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCMeeverlengen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCMeeverlengen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Meeverlengen_halfstar_Add();");
 
@@ -226,7 +227,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Synchronisaties_halfstar(void)");
 			sb.AppendLine("{");
 			
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCSynchronisaties, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCSynchronisaties, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Synchronisaties_halfstar_Add();");
 
@@ -243,7 +244,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void Alternatief_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCAlternatief, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCAlternatief, true, true, false, true, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
@@ -258,7 +259,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void RealisatieAfhandeling_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCRealisatieAfhandeling, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCRealisatieAfhandeling, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}RealisatieAfhandeling_halfstar_Add();");
 
@@ -291,7 +292,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void DetectieStoring_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCDetectieStoring, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCDetectieStoring, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}DetectieStoring_halfstar_Add();");
 
@@ -308,7 +309,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void PostApplication_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPostApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPostApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}PostApplication_halfstar_Add();");
 
@@ -325,7 +326,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void pre_system_application_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPreSystemApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPreSystemApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}pre_system_application_halfstar_Add();");
 
@@ -342,7 +343,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void post_system_application_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPostSystemApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPostSystemApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}post_system_application_halfstar_Add();");
 
@@ -359,7 +360,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 			sb.AppendLine("void post_dump_application_halfstar(void)");
 			sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPostDumpApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPostDumpApplication, true, true, false, true, ts);
 			
             sb.AppendLine($"{ts}post_dump_application_halfstar_Add();");
 
@@ -419,60 +420,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioHalfstarSettings(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.HstCPrioHalfstarSettings, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.HstCPrioHalfstarSettings, true, true, false, false, ts);
             
             sb.AppendLine("}");
             sb.AppendLine();
 
             return sb.ToString();
         }
-
-        private string GenerateHstCSignaalPlanInstellingen(ControllerModel controller)
-	    {
-		    var sb = new StringBuilder();
-
-		    sb.AppendLine("void signaalplan_instellingen(void)");
-		    sb.AppendLine("{");
-
-			sb.AppendLine($"{ts}/* CYCLUSTIJDEN SIGNAALPLANNEN */");
-			sb.AppendLine($"{ts}/* =========================== */");
-		    foreach (var pl in controller.HalfstarData.SignaalPlannen)
-		    {
-			    sb.AppendLine($"{ts}TX_max[{pl.Naam}] = {pl.Cyclustijd}; /* {pl.Commentaar} */");
-		    }
-		    sb.AppendLine();
-
-		    sb.AppendLine($"{ts}/* IN/UITSCHAKELTIJDEN SIGNAALPLANNEN */");
-		    sb.AppendLine($"{ts}/* ================================== */");
-		    foreach (var pl in controller.HalfstarData.SignaalPlannen)
-		    {
-			    sb.AppendLine($"{ts}TPL_on[{pl.Naam}] = {pl.StartMoment}; TPL_off[{pl.Naam}] = {pl.SwitchMoment}; /* {pl.Commentaar} */");
-		    }
-		    sb.AppendLine();
-
-		    sb.AppendLine($"{ts}/* FASECYCLUSTIJDEN VAN DE SIGNAALPLANNEN */");
-		    sb.AppendLine($"{ts}/* ====================================== */");
-		    foreach (var pl in controller.HalfstarData.SignaalPlannen)
-		    {
-			    sb.AppendLine($"{ts}/* {pl.Commentaar} */");
-			    foreach (var plfc in pl.Fasen)
-			    {
-				    sb.AppendLine(
-					    $"{ts}SetPlanTijden({_fcpf}{plfc.FaseCyclus}, " +
-                        $"{pl.Naam}, " +
-                        $"{(plfc.A1 ?? 0).ToString().PadLeft(3)}, " +
-                        $"{plfc.B1.ToString().PadLeft(3)}, " +
-                        $"{(plfc.C1 ?? 0).ToString().PadLeft(3)}, " +
-                        $"{plfc.D1.ToString().PadLeft(3)}, " +
-                        $"{(plfc.E1 ?? 0).ToString().PadLeft(3)});");
-			    }
-				sb.AppendLine();
-		    }
-		    
-		    sb.AppendLine("}");
-            sb.AppendLine();
-
-            return sb.ToString();
-	    }
 	}
 }

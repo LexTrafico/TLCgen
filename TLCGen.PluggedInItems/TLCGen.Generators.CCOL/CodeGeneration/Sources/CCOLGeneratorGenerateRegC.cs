@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
     public partial class CCOLGenerator
     {
-        private string GenerateRegC(ControllerModel controller)
+        private string GenerateRegC(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
             sb.AppendLine("/* REGELPROGRAMMA */");
@@ -45,17 +45,17 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             {
                 sb.Append(GenerateRegCRealisatieTijden(controller));
             }
-            sb.Append(GenerateRegCMaxOfVerlenggroen(controller));
-            sb.Append(GenerateRegCWachtgroen(controller));
+            sb.Append(GenerateRegCMaxOfVerlenggroen(controller, settingsProvider));
+            sb.Append(GenerateRegCWachtgroen(controller, settingsProvider));
             sb.Append(GenerateRegCMeetkriterium(controller));
-            sb.Append(GenerateRegCMeeverlengen(controller));
+            sb.Append(GenerateRegCMeeverlengen(controller, settingsProvider));
             sb.Append(GenerateRegCSynchronisaties(controller));
             sb.Append(GenerateRegCRealisatieAfhandeling(controller));
             sb.Append(GenerateRegCFileVerwerking(controller));
             sb.Append(GenerateRegCDetectieStoring(controller));
             sb.Append(GenerateRegCInitApplication(controller));
             sb.Append(GenerateRegCPostApplication(controller));
-            sb.Append(GenerateRegCApplication(controller));
+            sb.Append(GenerateRegCApplication(controller, settingsProvider));
             sb.Append(GenerateRegCSystemApplication(controller));
             if(controller.Data.CCOLVersie >= CCOLVersieEnum.CCOL9)
             {
@@ -71,7 +71,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
         {
             var sb = new StringBuilder();
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCBeforeIncludes, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCBeforeIncludes, false, true, false, true, ts);
 
             return sb.ToString();
         }
@@ -293,7 +293,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PreApplication(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPreApplication, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPreApplication, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}PreApplication_Add();");
 
@@ -323,7 +323,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void KlokPerioden(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCKlokPerioden, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCKlokPerioden, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}KlokPerioden_Add();");
             
@@ -345,7 +345,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void Aanvragen(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCAanvragen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCAanvragen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Aanvragen_Add();");
 			
@@ -367,7 +367,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void RealisatieTijden(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCRealisatieTijden, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieTijden, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}RealisatieTijden_Add();");
 			
@@ -383,11 +383,11 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GenerateRegCMaxOfVerlenggroen(ControllerModel controller)
+        private string GenerateRegCMaxOfVerlenggroen(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            var _hplact = settingsProvider.GetElementName("hplact");
 
             switch (controller.Data.TypeGroentijden)
             {
@@ -395,12 +395,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                     sb.AppendLine("void Maxgroen(void)");
                     sb.AppendLine("{");
 
-                    AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCMaxgroen, true, true, false, true);
+                    CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCMaxgroen, true, true, false, true, ts);
 
                     // Add file
                     sb.AppendLine($"{ts}Maxgroen_Add();");
 
-                    AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCMaxgroenNaAdd, true, true, false, false);
+                    CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCMaxgroenNaAdd, true, true, false, false, ts);
 
                     sb.AppendLine("}");
 
@@ -410,7 +410,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                     sb.AppendLine("void Verlenggroen(void)");
                     sb.AppendLine("{");
 
-                    AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCVerlenggroen, true, true, false, true);
+                    CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCVerlenggroen, true, true, false, true, ts);
 
                     // Add file
                     sb.AppendLine($"{ts}Maxgroen_Add();");
@@ -424,15 +424,15 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GenerateRegCWachtgroen(ControllerModel controller)
+        private string GenerateRegCWachtgroen(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
-            var _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            var _hplact = settingsProvider.GetElementName("hplact");
 
             sb.AppendLine("void Wachtgroen(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCWachtgroen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCWachtgroen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Wachtgroen_Add();");
 	        sb.AppendLine("}");
@@ -447,7 +447,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void Meetkriterium(void)");
             sb.AppendLine("{");
             
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCMeetkriterium, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCMeetkriterium, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Meetkriterium_Add();");
 
@@ -457,15 +457,15 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GenerateRegCMeeverlengen(ControllerModel controller)
+        private string GenerateRegCMeeverlengen(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
-            var _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            var _hplact = settingsProvider.GetElementName("hplact");
 
             sb.AppendLine("void Meeverlengen(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCMeeverlengen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCMeeverlengen, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Meeverlengen_Add();");
             sb.AppendLine("}");
@@ -480,7 +480,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void Synchronisaties(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCSynchronisaties, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCSynchronisaties, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}Synchronisaties_Add();");
 	        sb.AppendLine("}");
@@ -496,13 +496,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void RealisatieAfhandeling(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandeling, true, false, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingVoorModules, true, false, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingModules, true, false, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingNaModules, true, false, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingVoorModules, false, true, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingModules, false, true, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingNaModules, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandeling, true, false, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingVoorModules, true, false, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingModules, true, false, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingNaModules, true, false, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingVoorModules, false, true, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingModules, false, true, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandelingNaModules, false, true, false, true, ts);
 
             var molens = new List<ModuleMolenModel> { c.ModuleMolen };
             if (c.Data.MultiModuleReeksen)
@@ -572,7 +572,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             }
             sb.AppendLine();
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandeling, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCRealisatieAfhandeling, false, true, false, true, ts);
 
             sb.AppendLine($"{ts}RealisatieAfhandeling_Add();");
 	        sb.AppendLine("}");
@@ -588,7 +588,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void FileVerwerking(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCFileVerwerking, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCFileVerwerking, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}FileVerwerking_Add();");
 	        sb.AppendLine("}");
@@ -604,7 +604,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void DetectieStoring(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCDetectieStoring, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCDetectieStoring, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}DetectieStoring_Add();");
 	        sb.AppendLine("}");
@@ -620,7 +620,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void init_application(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCInitApplication, true, false, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCInitApplication, true, false, false, true, ts);
 
             sb.AppendLine("#if (!defined AUTOMAAT && !defined AUTOMAAT_TEST) && !defined VISSIM");
             sb.AppendLine($"{ts}if (!SAPPLPROG)");
@@ -635,7 +635,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine();
             }
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCInitApplication, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCInitApplication, false, true, false, true, ts);
 
             sb.AppendLine($"{ts}post_init_application();");
 	        if (controller.HalfstarData.IsHalfstar)
@@ -648,17 +648,17 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GenerateRegCApplication(ControllerModel controller)
+        private string GenerateRegCApplication(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
-            var _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
-            var _hmlact = CCOLGeneratorSettingsProvider.Default.GetElementName("hmlact");
-            var _schbmfix = CCOLGeneratorSettingsProvider.Default.GetElementName("schbmfix");
-            var _schovpriople = CCOLGeneratorSettingsProvider.Default.GetElementName("schovpriople");
-            var _isfix = CCOLGeneratorSettingsProvider.Default.GetElementName("isfix");
-            var _prmfb = CCOLGeneratorSettingsProvider.Default.GetElementName("prmfb");
-            var _schstar = CCOLGeneratorSettingsProvider.Default.GetElementName("schstar");
-            var _mstarprog = CCOLGeneratorSettingsProvider.Default.GetElementName("mstarprog");
+            var _hplact = settingsProvider.GetElementName("hplact");
+            var _hmlact = settingsProvider.GetElementName("hmlact");
+            var _schbmfix = settingsProvider.GetElementName("schbmfix");
+            var _schovpriople = settingsProvider.GetElementName("schovpriople");
+            var _isfix = settingsProvider.GetElementName("isfix");
+            var _prmfb = settingsProvider.GetElementName("prmfb");
+            var _schstar = settingsProvider.GetElementName("schstar");
+            var _mstarprog = settingsProvider.GetElementName("mstarprog");
 
             sb.AppendLine("void application(void)");
             sb.AppendLine("{");
@@ -816,7 +816,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PostApplication(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPostApplication, true, false, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPostApplication, true, false, false, true, ts);
             
             sb.AppendLine($"{ts}int i = 0;");
             sb.AppendLine($"{ts}for (; i < DPMAX; ++i)");
@@ -826,7 +826,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine($"{ts}}}");
             sb.AppendLine();
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPostApplication, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPostApplication, false, true, false, true, ts);
             
             sb.AppendLine($"{ts}PostApplication_Add();");
 	        if (controller.HalfstarData.IsHalfstar)
@@ -846,11 +846,11 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("{");
 
             var vars = new List<string>();
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCSystemApplication, true, false, false, true, vars);
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPreSystemApplication, true, false, false, true, vars);
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPostApplication, true, false, false, true, vars);
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPostSystemApplication, true, false, false, true, vars);
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPreSystemApplication, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCSystemApplication, true, false, false, true, ts, vars);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPreSystemApplication, true, false, false, true, ts, vars);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPostApplication, true, false, false, true, ts, vars);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPostSystemApplication, true, false, false, true, ts, vars);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPreSystemApplication, false, true, false, true, ts);
             
             sb.AppendLine($"{ts}pre_system_application();");
 	        if (controller.HalfstarData.IsHalfstar)
@@ -859,7 +859,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 	        }
             sb.AppendLine();
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCSystemApplication, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCSystemApplication, false, true, false, true, ts);
 
             if (controller.Data.GarantieOntruimingsTijden)
             {
@@ -879,7 +879,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine($"{ts}check_trg_min();");
             sb.AppendLine();
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCPostSystemApplication, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCPostSystemApplication, false, true, false, true, ts);
 
             sb.AppendLine($"{ts}post_system_application();");
 	        if (controller.HalfstarData.IsHalfstar)
@@ -900,7 +900,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void system_application2(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCSystemApplication2, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCSystemApplication2, true, true, false, true, ts);
 
             sb.AppendLine();
             sb.AppendLine($"{ts}post_system_application2();");
@@ -970,7 +970,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void is_special_signals(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(controller, sb, CCOLCodeTypeEnum.RegCSpecialSignals, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(controller, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.RegCSpecialSignals, true, true, false, true, ts);
 
             if (controller.PrioData.PrioIngrepen.Any() ||
 				controller.PrioData.HDIngrepen.Any())

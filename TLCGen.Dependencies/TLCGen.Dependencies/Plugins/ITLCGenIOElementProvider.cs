@@ -8,7 +8,7 @@ namespace TLCGen.Plugins
     {
         List<IOElementModel> GetOutputItems();
         List<IOElementModel> GetInputItems();
-        List<object> GetAllItems();
+        List<object> GetAllItems(Dictionary<string, string> prefixes);
 
         bool IsElementNameUnique(string name, TLCGenObjectTypeEnum type);
     }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -17,7 +17,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _schwisselpol;
         private string _schgeenwissel;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -180,12 +180,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _schwisselpol = CCOLGeneratorSettingsProvider.Default.GetElementName("schwisselpol");
-            _schgeenwissel = CCOLGeneratorSettingsProvider.Default.GetElementName("schgeenwissel");
+            _schwisselpol = settingsProvider.GetElementName("schwisselpol");
+            _schgeenwissel = settingsProvider.GetElementName("schgeenwissel");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

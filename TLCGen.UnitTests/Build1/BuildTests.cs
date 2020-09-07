@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using Microsoft.Build.Framework.XamlTypes;
 using NUnit.Framework;
 using TLCGen.Generators.CCOL;
-using TLCGen.Generators.CCOL.ProjectGeneration;
-using TLCGen.Generators.CCOL.Settings;
+using TLCGen.Generators.Shared;
+using TLCGen.Generators.Shared.ProjectGeneration;
 using TLCGen.Helpers;
 using TLCGen.Models;
 using TLCGen.Models.Enumerations;
@@ -236,8 +235,18 @@ namespace TLCGen.UnitTests.Build
             CcolGen.ControllerFileName = file;
             CcolGen.Controller = c;
             CcolGen.GenerateController();
+            var settings = CcolGen.Controller.Data.CCOLVersie switch
+            {
+                CCOLVersieEnum.CCOL8 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettings,
+                CCOLVersieEnum.CCOL9 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL9,
+                CCOLVersieEnum.CCOL95 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL95,
+                CCOLVersieEnum.CCOL100 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL100,
+                CCOLVersieEnum.CCOL110 => CCOLGeneratorSettingsProvider.Default.Settings.VisualSettingsCCOL110,
+                _ => throw new ArgumentOutOfRangeException()
+            };
             var visualGen = new CCOLVisualProjectGenerator();
-            visualGen.GenerateVisualStudioProjectFiles(CcolGen, "Visual_2017", 2017);
+            var outputfilename = Path.Combine(Path.GetDirectoryName(CcolGen.ControllerFileName) ?? throw new InvalidOperationException(), $"{CcolGen.Controller.Data.Naam}_Visual_2017.vcxproj");
+            visualGen.GenerateVisualStudioProjectFiles(CcolGen, "VisualTemplates", "Visual_2017", 2017, outputfilename, settings);
             TLCGenSerialization.Serialize(file, c);
         }
 

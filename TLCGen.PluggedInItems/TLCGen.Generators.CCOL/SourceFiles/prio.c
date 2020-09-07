@@ -1909,7 +1909,7 @@ void PrioAlternatieven(void)
     }
 	PrioPARCorrecties();
 #ifdef PRIO_ADDFILE
-	PrioAlternatieven_Add();
+	if (iLWAlt) PrioAlternatieven_Add();
 #endif
 
     for (fc = 0; fc < FCMAX; ++fc)

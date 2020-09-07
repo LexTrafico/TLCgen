@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
@@ -21,7 +21,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
 #pragma warning restore 0649
         private string _tkm; // read from settings provider, comes from other code gen object
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -141,11 +141,11 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _tkm = CCOLGeneratorSettingsProvider.Default.GetElementName("tkm");
+            _tkm = settingsProvider.GetElementName("tkm");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

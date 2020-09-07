@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 using TLCGen.Settings;
 
@@ -371,7 +371,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return elements;
         }
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myDetectors = new List<DetectorModel>();
@@ -1317,21 +1317,21 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _tnlfg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlfg");
-            _tnlfgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlfgd");
-            _tnlsg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsg");
-            _tnlsgd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlsgd");
-            _tnlcv = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcv");
-            _tnlcvd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcvd");
-            _tnleg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnleg");
-            _tnlegd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlegd");
-            _mwtvm = CCOLGeneratorSettingsProvider.Default.GetElementName("mwtvm");
-            _prmwtvnhaltmin = CCOLGeneratorSettingsProvider.Default.GetElementName("prmwtvnhaltmin");
-            _prmrislaneid = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrislaneid");
+            _tnlfg = settingsProvider.GetElementName("tnlfg");
+            _tnlfgd = settingsProvider.GetElementName("tnlfgd");
+            _tnlsg = settingsProvider.GetElementName("tnlsg");
+            _tnlsgd = settingsProvider.GetElementName("tnlsgd");
+            _tnlcv = settingsProvider.GetElementName("tnlcv");
+            _tnlcvd = settingsProvider.GetElementName("tnlcvd");
+            _tnleg = settingsProvider.GetElementName("tnleg");
+            _tnlegd = settingsProvider.GetElementName("tnlegd");
+            _mwtvm = settingsProvider.GetElementName("mwtvm");
+            _prmwtvnhaltmin = settingsProvider.GetElementName("prmwtvnhaltmin");
+            _prmrislaneid = settingsProvider.GetElementName("prmrislaneid");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

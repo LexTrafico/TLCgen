@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration

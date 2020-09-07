@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -36,7 +36,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
         private string _huks;
         private string _hiks;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
@@ -656,13 +656,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return sb.ToString();
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
-            _huks = CCOLGeneratorSettingsProvider.Default.GetElementName("huks");
-            _hiks = CCOLGeneratorSettingsProvider.Default.GetElementName("hiks");
+            _hplact = settingsProvider.GetElementName("hplact");
+            _huks = settingsProvider.GetElementName("huks");
+            _hiks = settingsProvider.GetElementName("hiks");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

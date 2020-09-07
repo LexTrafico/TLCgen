@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Text;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -38,7 +38,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 
         #region CCOLCodePieceGeneratorBase Overrides
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
@@ -249,16 +249,16 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return null;
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hprio = CCOLGeneratorSettingsProvider.Default.GetElementName("hprio");
-            _hprioin = CCOLGeneratorSettingsProvider.Default.GetElementName("hprioin");
-            _hpriouit = CCOLGeneratorSettingsProvider.Default.GetElementName("hpriouit");
-            _cvc = CCOLGeneratorSettingsProvider.Default.GetElementName("cvc");
-            _cvchd = CCOLGeneratorSettingsProvider.Default.GetElementName("cvchd");
-            _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            _hprio = settingsProvider.GetElementName("hprio");
+            _hprioin = settingsProvider.GetElementName("hprioin");
+            _hpriouit = settingsProvider.GetElementName("hpriouit");
+            _cvc = settingsProvider.GetElementName("cvc");
+            _cvchd = settingsProvider.GetElementName("cvchd");
+            _hplact = settingsProvider.GetElementName("hplact");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
 
         #endregion // CCOLCodePieceGeneratorBase Overrides

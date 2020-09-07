@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -26,7 +26,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 
         #endregion // Fields
         
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapOutputs = new List<CCOLIOElement>();
@@ -135,14 +135,14 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             }
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _hperiod = CCOLGeneratorSettingsProvider.Default.GetElementName("hperiod");
-            _prmperrt = CCOLGeneratorSettingsProvider.Default.GetElementName("prmperrt");
-            _prmperrta = CCOLGeneratorSettingsProvider.Default.GetElementName("prmperrta");
-            _prmperrtdim = CCOLGeneratorSettingsProvider.Default.GetElementName("prmperrtdim");
+            _hperiod = settingsProvider.GetElementName("hperiod");
+            _prmperrt = settingsProvider.GetElementName("prmperrt");
+            _prmperrta = settingsProvider.GetElementName("prmperrta");
+            _prmperrtdim = settingsProvider.GetElementName("prmperrtdim");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

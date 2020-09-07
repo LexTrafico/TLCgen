@@ -24,8 +24,8 @@ var outputDir = Directory("./published") + Directory(configuration);
 var outputDirBase = Directory("./published");
 // varia
 var prev_version = "0_7_16_0";
-var backupOld = true;
-var deployDev = false;
+var backupOld = false;
+var deployDev = true;
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -130,7 +130,13 @@ Task("PackPortable")
     DeleteFiles(files);
     files = GetFiles(packedDir.Path + "/Deps/Xceed.Wpf.DataGrid.dll");
     DeleteFiles(files);
+    files = GetFiles(packedDir.Path + "/Deps/TraffickControls.dll");
+    DeleteFiles(files);
+    files = GetFiles(packedDir.Path + "/Plugins/TLCGen.Importers.Traffick.dll");
+    DeleteFiles(files);
     CopyDirectory(buildDir.Path + "/Plugins", packedDir.Path + "/Plugins");
+    files = GetFiles(packedDir.Path + "/Plugins/TLCGen.Importers.Traffick.dll");
+    DeleteFiles(files);
     CopyDirectory(buildDir.Path + "/Settings", packedDir.Path + "/Settings");
     CopyDirectory(buildDir.Path + "/SourceFiles", packedDir.Path + "/SourceFiles");
     CopyDirectory(buildDir.Path + "/SourceFilesToCopy", packedDir.Path + "/SourceFilesToCopy");
@@ -139,12 +145,12 @@ Task("PackPortable")
     if (!DirectoryExists(buildDir.Path + "/TLCGen_v" + version))
         MoveDirectory(packedDir, buildDir.Path + "/TLCGen_v" + version);
 
-    if (FileExists(outputDir.Path + "/TLCGen_portable_latest.zip"))
+    if (FileExists(outputDir.Path + "/TLCGen_portable_traffick.zip"))
     {
-        files = GetFiles(outputDir.Path + "/TLCGen_portable_latest.zip");
+        files = GetFiles(outputDir.Path + "/TLCGen_portable_traffick.zip");
         DeleteFiles(files);
     }
-    Zip(buildDir.Path + "/TLCGen_v" + version, outputDir.Path + "/TLCGen_portable_latest.zip");
+    Zip(buildDir.Path + "/TLCGen_v" + version, outputDir.Path + "/TLCGen_portable_traffick.zip");
 });
 
 Task("Deploy")
@@ -235,7 +241,7 @@ Task("DeployDev")
                 var winScpExe = File("./Tools/Addins/Cake.WinSCP.0.4.3/lib/netstandard2.0/WinSCP.exe");
                 // Connect
                 session.Open(sessionOptions);
-          
+
                 // Upload files
                 TransferOperationResult transferResult;
                 TransferOptions transferOptions = new TransferOptions();
@@ -261,7 +267,7 @@ if (!deployDev)
 }
 else
 {
-    Task("Default").IsDependentOn("DeployDev");
+    Task("Default").IsDependentOn("PackPortable");
 }
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

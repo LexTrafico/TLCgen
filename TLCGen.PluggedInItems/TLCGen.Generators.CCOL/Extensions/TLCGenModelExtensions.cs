@@ -1,5 +1,5 @@
-﻿using TLCGen.Generators.CCOL.Settings;
-using TLCGen.Models;
+﻿using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.Extensions
 {

@@ -1,39 +1,39 @@
 ﻿using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
     public partial class CCOLGenerator
     {
-        private string GenerateRgvC(ControllerModel c)
+        private string GenerateRgvC(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             if(c.RoBuGrover.ConflictGroepen?.Count == 0)
             {
                 return null;
             }
 
-            var _prmrgv = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrgv");
-            var _prmmin_tcyclus = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmin_tcyclus");
-            var _prmmax_tcyclus = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmax_tcyclus");
-            var _prmmintvg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmintvg");
-            var _prmmaxtvg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmaxtvg");
-            var _prmtvg_omhoog = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtvg_omhoog");
-            var _prmtvg_omlaag = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtvg_omlaag");
-            var _prmtvg_verschil = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtvg_verschil");
-            var _prmtvg_npr_omlaag = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtvg_npr_omlaag");
-            var _hprreal = CCOLGeneratorSettingsProvider.Default.GetElementName("hprreal");
-            var _schrgv = CCOLGeneratorSettingsProvider.Default.GetElementName("schrgv");
-            var _schrgv_snel = CCOLGeneratorSettingsProvider.Default.GetElementName("schrgv_snel");
-            var _tfd = CCOLGeneratorSettingsProvider.Default.GetElementName("tfd");
-            var _thd = CCOLGeneratorSettingsProvider.Default.GetElementName("thd");
-            var _tnlcv = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcv");
-            var _tnlcvd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlcvd");
-            var _tnleg = CCOLGeneratorSettingsProvider.Default.GetElementName("tnleg");
-            var _tnlegd = CCOLGeneratorSettingsProvider.Default.GetElementName("tnlegd");
+            var _prmrgv = settingsProvider.GetElementName("prmrgv");
+            var _prmmin_tcyclus = settingsProvider.GetElementName("prmmin_tcyclus");
+            var _prmmax_tcyclus = settingsProvider.GetElementName("prmmax_tcyclus");
+            var _prmmintvg = settingsProvider.GetElementName("prmmintvg");
+            var _prmmaxtvg = settingsProvider.GetElementName("prmmaxtvg");
+            var _prmtvg_omhoog = settingsProvider.GetElementName("prmtvg_omhoog");
+            var _prmtvg_omlaag = settingsProvider.GetElementName("prmtvg_omlaag");
+            var _prmtvg_verschil = settingsProvider.GetElementName("prmtvg_verschil");
+            var _prmtvg_npr_omlaag = settingsProvider.GetElementName("prmtvg_npr_omlaag");
+            var _hprreal = settingsProvider.GetElementName("hprreal");
+            var _schrgv = settingsProvider.GetElementName("schrgv");
+            var _schrgv_snel = settingsProvider.GetElementName("schrgv_snel");
+            var _tfd = settingsProvider.GetElementName("tfd");
+            var _thd = settingsProvider.GetElementName("thd");
+            var _tnlcv = settingsProvider.GetElementName("tnlcv");
+            var _tnlcvd = settingsProvider.GetElementName("tnlcvd");
+            var _tnleg = settingsProvider.GetElementName("tnleg");
+            var _tnlegd = settingsProvider.GetElementName("tnlegd");
 
-            var _hfile = CCOLGeneratorSettingsProvider.Default.GetElementName("hfile");
+            var _hfile = settingsProvider.GetElementName("hfile");
 
             var fasenMetRgv = c.Fasen.Where(x => c.RoBuGrover.SignaalGroepInstellingen.Any(x2 => x2.FaseCyclus == x.Naam));
 

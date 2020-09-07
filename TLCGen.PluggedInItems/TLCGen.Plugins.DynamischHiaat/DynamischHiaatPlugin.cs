@@ -7,13 +7,12 @@ using TLCGen.Plugins.DynamischHiaat.Models;
 using TLCGen.Plugins.DynamischHiaat.ViewModels;
 using TLCGen.Plugins.DynamischHiaat.Views;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.CodeGeneration;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Helpers;
 using TLCGen.Models;
 using TLCGen.Dependencies.Providers;
 using System;
 using System.IO;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Plugins.DynamischHiaat
 {
@@ -206,7 +205,7 @@ namespace TLCGen.Plugins.DynamischHiaat
 
         #region CCOLCodePieceGenerator
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
 
@@ -224,27 +223,27 @@ namespace TLCGen.Plugins.DynamischHiaat
                         "Foutieve signaalgroep instellingen", MessageBoxButton.OK);
                 }
 
-                _myElements.Add(new CCOLElement($"dynhiaat{msg.SignalGroupName}", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, $"Toepassen dynamsich hiaat bij fase {msg.SignalGroupName}"));
-                _myElements.Add(new CCOLElement($"opdrempelen{msg.SignalGroupName}", CCOLElementTypeEnum.HulpElement, $"Opdrempelen toepassen voor fase {msg.SignalGroupName}"));
-                _myElements.Add(new CCOLElement($"opdrempelen{msg.SignalGroupName}", msg.Opdrempelen ? 1 : 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, $"Opdrempelen toepassen voor fase {msg.SignalGroupName}"));
-                _myElements.Add(new CCOLElement($"geendynhiaat{msg.SignalGroupName}", CCOLElementTypeEnum.HulpElement, "Tegenhouden toepassen dynamische hiaattijden voor fase " + msg.SignalGroupName));
-                _myElements.Add(new CCOLElement($"edkop_{msg.SignalGroupName}", msg.KijkenNaarKoplus ? 1 : 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, $"Start timers dynamische hiaat fase {msg.SignalGroupName} op einde detectie koplus"));
+                _myElements.Add(new CCOLElement($"dynhiaat{msg.SignalGroupName}", 1, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider, $"Toepassen dynamsich hiaat bij fase {msg.SignalGroupName}"));
+                _myElements.Add(new CCOLElement($"opdrempelen{msg.SignalGroupName}", CCOLElementTypeEnum.HulpElement, settingsProvider, $"Opdrempelen toepassen voor fase {msg.SignalGroupName}"));
+                _myElements.Add(new CCOLElement($"opdrempelen{msg.SignalGroupName}", msg.Opdrempelen ? 1 : 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider, $"Opdrempelen toepassen voor fase {msg.SignalGroupName}"));
+                _myElements.Add(new CCOLElement($"geendynhiaat{msg.SignalGroupName}", CCOLElementTypeEnum.HulpElement, settingsProvider, "Tegenhouden toepassen dynamische hiaattijden voor fase " + msg.SignalGroupName));
+                _myElements.Add(new CCOLElement($"edkop_{msg.SignalGroupName}", msg.KijkenNaarKoplus ? 1 : 0, CCOLElementTimeTypeEnum.SCH_type, CCOLElementTypeEnum.Schakelaar, settingsProvider, $"Start timers dynamische hiaat fase {msg.SignalGroupName} op einde detectie koplus"));
                 foreach(var d in msg.DynamischHiaatDetectoren)
                 {
-                    _myElements.Add(new CCOLElement($"TDHst{_dpf}{d.DetectorName}", 999, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter, $"Onthouden oorspronkelijke TDH voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"{d.DetectorName}_1", d.Moment1, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, $"Dynamische hiaattijden moment 1 voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"{d.DetectorName}_2", d.Moment2, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, $"Dynamische hiaattijden moment 2 voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"tdh_{d.DetectorName}_1", d.TDH1, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, $"Dynamische hiaattijden TDH 1 voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"tdh_{d.DetectorName}_2", d.TDH2, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, $"Dynamische hiaattijden TDH 2 voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"max_{d.DetectorName}", d.Maxtijd, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, $"Dynamische hiaattijden maximale tijd 2 voor detector {d.DetectorName}"));
-                    _myElements.Add(new CCOLElement($"verleng_{d.DetectorName}", CCOLElementTypeEnum.HulpElement, $"Instructie verlengen op detector {d.DetectorName} ongeacht dynamische hiaat"));
+                    _myElements.Add(new CCOLElement($"TDHst{_dpf}{d.DetectorName}", 999, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Parameter, settingsProvider, $"Onthouden oorspronkelijke TDH voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"{d.DetectorName}_1", d.Moment1, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, settingsProvider, $"Dynamische hiaattijden moment 1 voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"{d.DetectorName}_2", d.Moment2, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, settingsProvider, $"Dynamische hiaattijden moment 2 voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"tdh_{d.DetectorName}_1", d.TDH1, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, settingsProvider, $"Dynamische hiaattijden TDH 1 voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"tdh_{d.DetectorName}_2", d.TDH2, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, settingsProvider, $"Dynamische hiaattijden TDH 2 voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"max_{d.DetectorName}", d.Maxtijd, CCOLElementTimeTypeEnum.TE_type, CCOLElementTypeEnum.Timer, settingsProvider, $"Dynamische hiaattijden maximale tijd 2 voor detector {d.DetectorName}"));
+                    _myElements.Add(new CCOLElement($"verleng_{d.DetectorName}", CCOLElementTypeEnum.HulpElement, settingsProvider, $"Instructie verlengen op detector {d.DetectorName} ongeacht dynamische hiaat"));
                     var schprm = 0;
                     if (d.SpringStart) schprm += 0x01;
                     if (d.VerlengNiet) schprm += 0x02;
                     if (d.VerlengExtra) schprm += 0x04;
                     if (d.DirectAftellen) schprm += 0x08;
                     if (d.SpringGroen) schprm += 0x10;
-                    _myElements.Add(new CCOLElement($"springverleng_{d.DetectorName}", schprm, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, $"Dyn. hiaattij instelling voor det. {d.DetectorName} (via bitsturing)"));
+                    _myElements.Add(new CCOLElement($"springverleng_{d.DetectorName}", schprm, CCOLElementTimeTypeEnum.None, CCOLElementTypeEnum.Parameter, settingsProvider, $"Dyn. hiaattij instelling voor det. {d.DetectorName} (via bitsturing)"));
                 }
             }
         }
@@ -355,10 +354,10 @@ namespace TLCGen.Plugins.DynamischHiaat
             };
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             _mmk = CCOLGeneratorSettingsProvider.Default.GetElementName("mmk");
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
 
         #endregion // CCOLCodePieceGenerator

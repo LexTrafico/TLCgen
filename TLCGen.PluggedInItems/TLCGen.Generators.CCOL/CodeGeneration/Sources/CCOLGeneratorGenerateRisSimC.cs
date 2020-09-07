@@ -1,25 +1,25 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
     public partial class CCOLGenerator
     {
-        private string GenerateRisSimC(ControllerModel c)
+        private string GenerateRisSimC(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider, string pluginVersion)
         {
             var risModel = c.RISData;
 
-            var _prmrislaneid = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrislaneid");
+            var _prmrislaneid = settingsProvider.GetElementName("prmrislaneid");
 
             var sb = new StringBuilder();
 
             sb.AppendLine("/* APPLICATIE RIS SIMULATIEPROGRAMMA */");
             sb.AppendLine("/* --------------------------------- */");
             sb.AppendLine();
-            sb.Append(CCOLHeaderGenerator.GenerateFileHeader(c.Data, "rissim.c"));
+            sb.Append(CCOLHeaderGenerator.GenerateFileHeader(c.Data, "rissim.c", pluginVersion));
             sb.AppendLine();
             sb.Append(CCOLHeaderGenerator.GenerateVersionHeader(c.Data));
             sb.AppendLine();

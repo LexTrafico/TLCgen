@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 {
@@ -27,7 +27,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 #pragma warning restore 0649
         private string _mperiodstar;
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapInputs = new List<CCOLIOElement>();
@@ -197,11 +197,11 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return sb.ToString();
         }
 
-        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings)
+        public override bool SetSettings(CCOLGeneratorClassWithSettingsModel settings, ICCOLGeneratorSettingsProvider settingsProvider)
         {
-            _mperiodstar = CCOLGeneratorSettingsProvider.Default.GetElementName("mperiodstar");
+            _mperiodstar = settingsProvider.GetElementName("mperiodstar");
 
-            return base.SetSettings(settings);
+            return base.SetSettings(settings, settingsProvider);
         }
     }
 }

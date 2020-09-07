@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration
 {
     public partial class CCOLGenerator
     {
-        private string GeneratePrioC(ControllerModel controller)
+        private string GeneratePrioC(ControllerModel controller, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
@@ -25,9 +25,9 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.Append(GeneratePrioCIncludes(controller));
             sb.Append(GeneratePrioCTop(controller));
             sb.Append(GeneratePrioCInit(controller));
-            sb.Append(GeneratePrioCInstellingen(controller));
-            sb.Append(GeneratePrioCRijTijdScenario(controller));
-            sb.Append(GeneratePrioCInUitMelden(controller));
+            sb.Append(GeneratePrioCInstellingen(controller, settingsProvider));
+            sb.Append(GeneratePrioCRijTijdScenario(controller, settingsProvider));
+            sb.Append(GeneratePrioCInUitMelden(controller, settingsProvider));
             sb.Append(GeneratePrioCOndermaximum(controller));
             sb.Append(GeneratePrioCAfkapgroen(controller));
             sb.Append(GeneratePrioCStartGroenMomenten(controller));
@@ -40,8 +40,8 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.Append(GeneratePrioCTegenhoudenConflicten(controller));
             sb.Append(GeneratePrioCPostAfhandelingPrio(controller));
             sb.Append(GeneratePrioCPARCorrecties(controller));
-            sb.Append(GeneratePrioCPARCcol(controller));
-            sb.Append(GeneratePrioCSpecialSignals(controller));
+            sb.Append(GeneratePrioCPARCcol(controller, settingsProvider));
+            sb.Append(GeneratePrioCSpecialSignals(controller, settingsProvider));
             sb.Append(GeneratePrioCBottom(controller));
 
             return sb.ToString();
@@ -114,7 +114,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine("#endif // PRACTICE_TEST");
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCIncludes, true, true, true, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCIncludes, true, true, true, true, ts);
 
             return sb.ToString();
         }
@@ -161,8 +161,8 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine("static char startkarog = FALSE;");
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCTop, true, true, true, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCBottom, true, false, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCTop, true, true, true, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCBottom, true, false, false, true, ts);
 
             if (c.Data.CCOLVersie <= CCOLVersieEnum.CCOL8 && c.Data.VLOGType != VLOGTypeEnum.Geen ||
                 c.Data.CCOLVersie > CCOLVersieEnum.CCOL8 && c.Data.VLOGSettings.VLOGToepassen)
@@ -268,7 +268,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioInitExtra(void) ");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCInitPrio, true, false, true, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCInitPrio, true, false, true, true, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
@@ -276,41 +276,41 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GeneratePrioCInstellingen(ControllerModel c)
+        private string GeneratePrioCInstellingen(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _tgb = CCOLGeneratorSettingsProvider.Default.GetElementName("tgb");
-            var _tgbhd = CCOLGeneratorSettingsProvider.Default.GetElementName("tgbhd");
-            var _prmrto = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrto");
-            var _prmrtbg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrtbg");
-            var _prmrtg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrtg");
-            var _prmrtohd = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrtohd");
-            var _prmrtbghd = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrtbghd");
-            var _prmrtghd = CCOLGeneratorSettingsProvider.Default.GetElementName("prmrtghd");
-            var _hprio = CCOLGeneratorSettingsProvider.Default.GetElementName("hprio");
-            var _hhd = CCOLGeneratorSettingsProvider.Default.GetElementName("hhd");
-            var _prmprio = CCOLGeneratorSettingsProvider.Default.GetElementName("prmprio");
-            var _prmpriohd = CCOLGeneratorSettingsProvider.Default.GetElementName("prmpriohd");
-            var _prmomx = CCOLGeneratorSettingsProvider.Default.GetElementName("prmomx");
-            var _tblk = CCOLGeneratorSettingsProvider.Default.GetElementName("tblk");
-            var _schupinagb = CCOLGeneratorSettingsProvider.Default.GetElementName("schupinagb");
-            var _schupinagbhd = CCOLGeneratorSettingsProvider.Default.GetElementName("schupinagbhd");
-            var _prmmwta = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmwta");
-            var _prmmwtfts = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmwtfts");
-            var _prmmwtvtg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmwtvtg");
-            var _prmpmgt = CCOLGeneratorSettingsProvider.Default.GetElementName("prmpmgt");
-            var _prmognt = CCOLGeneratorSettingsProvider.Default.GetElementName("prmognt");
-            var _prmnofm = CCOLGeneratorSettingsProvider.Default.GetElementName("prmnofm");
-            var _prmmgcov = CCOLGeneratorSettingsProvider.Default.GetElementName("prmmgcov");
-            var _prmpmgcov = CCOLGeneratorSettingsProvider.Default.GetElementName("prmpmgcov");
-            var _prmaltp = CCOLGeneratorSettingsProvider.Default.GetElementName("prmaltp");
-            var _prmaltg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmaltg");
-            var _schaltg = CCOLGeneratorSettingsProvider.Default.GetElementName("schaltg");
-            var _schaltghst = CCOLGeneratorSettingsProvider.Default.GetElementName("schaltghst");
-            var _prmohpmg = CCOLGeneratorSettingsProvider.Default.GetElementName("prmohpmg");
-            var _hmlact = CCOLGeneratorSettingsProvider.Default.GetElementName("hmlact");
-            var _hplact = CCOLGeneratorSettingsProvider.Default.GetElementName("hplact");
+            var _tgb = settingsProvider.GetElementName("tgb");
+            var _tgbhd = settingsProvider.GetElementName("tgbhd");
+            var _prmrto = settingsProvider.GetElementName("prmrto");
+            var _prmrtbg = settingsProvider.GetElementName("prmrtbg");
+            var _prmrtg = settingsProvider.GetElementName("prmrtg");
+            var _prmrtohd = settingsProvider.GetElementName("prmrtohd");
+            var _prmrtbghd = settingsProvider.GetElementName("prmrtbghd");
+            var _prmrtghd = settingsProvider.GetElementName("prmrtghd");
+            var _hprio = settingsProvider.GetElementName("hprio");
+            var _hhd = settingsProvider.GetElementName("hhd");
+            var _prmprio = settingsProvider.GetElementName("prmprio");
+            var _prmpriohd = settingsProvider.GetElementName("prmpriohd");
+            var _prmomx = settingsProvider.GetElementName("prmomx");
+            var _tblk = settingsProvider.GetElementName("tblk");
+            var _schupinagb = settingsProvider.GetElementName("schupinagb");
+            var _schupinagbhd = settingsProvider.GetElementName("schupinagbhd");
+            var _prmmwta = settingsProvider.GetElementName("prmmwta");
+            var _prmmwtfts = settingsProvider.GetElementName("prmmwtfts");
+            var _prmmwtvtg = settingsProvider.GetElementName("prmmwtvtg");
+            var _prmpmgt = settingsProvider.GetElementName("prmpmgt");
+            var _prmognt = settingsProvider.GetElementName("prmognt");
+            var _prmnofm = settingsProvider.GetElementName("prmnofm");
+            var _prmmgcov = settingsProvider.GetElementName("prmmgcov");
+            var _prmpmgcov = settingsProvider.GetElementName("prmpmgcov");
+            var _prmaltp = settingsProvider.GetElementName("prmaltp");
+            var _prmaltg = settingsProvider.GetElementName("prmaltg");
+            var _schaltg = settingsProvider.GetElementName("schaltg");
+            var _schaltghst = settingsProvider.GetElementName("schaltghst");
+            var _prmohpmg = settingsProvider.GetElementName("prmohpmg");
+            var _hmlact = settingsProvider.GetElementName("hmlact");
+            var _hplact = settingsProvider.GetElementName("hplact");
 
             sb.AppendLine("void PrioInstellingen(void) ");
             sb.AppendLine("{");
@@ -319,7 +319,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine($"{ts}/* ======================= */");
             sb.AppendLine();
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCInstellingen, true, false, true, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCInstellingen, true, false, true, true, ts);
 
             if (c.HasPTorHD())
             {
@@ -801,7 +801,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine();
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCInstellingen, false, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCInstellingen, false, true, false, false, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
@@ -809,16 +809,16 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GeneratePrioCRijTijdScenario(ControllerModel c)
+        private string GeneratePrioCRijTijdScenario(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _tbtovg = CCOLGeneratorSettingsProvider.Default.GetElementName("tbtovg");
-            var _cvc = CCOLGeneratorSettingsProvider.Default.GetElementName("cvc");
-            var _schvi = CCOLGeneratorSettingsProvider.Default.GetElementName("schvi");
-            var _schgeenwissel = CCOLGeneratorSettingsProvider.Default.GetElementName("schgeenwissel");
-            var _schwisselpol = CCOLGeneratorSettingsProvider.Default.GetElementName("schwisselpol");
-            var _hwissel = CCOLGeneratorSettingsProvider.Default.GetElementName("hwissel");
+            var _tbtovg = settingsProvider.GetElementName("tbtovg");
+            var _cvc = settingsProvider.GetElementName("cvc");
+            var _schvi = settingsProvider.GetElementName("schvi");
+            var _schgeenwissel = settingsProvider.GetElementName("schgeenwissel");
+            var _schwisselpol = settingsProvider.GetElementName("schwisselpol");
+            var _hwissel = settingsProvider.GetElementName("hwissel");
 
             sb.AppendLine("/* -----------------------------------------------------------");
             sb.AppendLine("   RijTijdScenario bepaalt het actieve rijtijdscenario");
@@ -984,19 +984,19 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GeneratePrioCInUitMelden(ControllerModel c)
+        private string GeneratePrioCInUitMelden(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _hprioin = CCOLGeneratorSettingsProvider.Default.GetElementName("hprioin");
-            var _hhdin = CCOLGeneratorSettingsProvider.Default.GetElementName("hhdin");
-            var _hpriouit = CCOLGeneratorSettingsProvider.Default.GetElementName("hpriouit");
-            var _hhduit = CCOLGeneratorSettingsProvider.Default.GetElementName("hhduit");
-            var _tkarmelding = CCOLGeneratorSettingsProvider.Default.GetElementName("tkarmelding");
-            var _tkarog = CCOLGeneratorSettingsProvider.Default.GetElementName("tkarog");
-            var _cvc = CCOLGeneratorSettingsProvider.Default.GetElementName("cvc");
-            var _tovminrood = CCOLGeneratorSettingsProvider.Default.GetElementName("tovminrood");
-            var _hwissel = CCOLGeneratorSettingsProvider.Default.GetElementName("hwissel");
+            var _hprioin = settingsProvider.GetElementName("hprioin");
+            var _hhdin = settingsProvider.GetElementName("hhdin");
+            var _hpriouit = settingsProvider.GetElementName("hpriouit");
+            var _hhduit = settingsProvider.GetElementName("hhduit");
+            var _tkarmelding = settingsProvider.GetElementName("tkarmelding");
+            var _tkarog = settingsProvider.GetElementName("tkarog");
+            var _cvc = settingsProvider.GetElementName("cvc");
+            var _tovminrood = settingsProvider.GetElementName("tovminrood");
+            var _hwissel = settingsProvider.GetElementName("hwissel");
 
             sb.AppendLine("/*----------------------------------------------------------------");
             sb.AppendLine("   InUitMelden verzorgt het afhandelen van in- en uitmeldingen.");
@@ -1013,7 +1013,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("{");
             if (c.PrioData.PrioIngrepen.Count > 0)
             {
-                AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCInUitMelden, true, false, false, true);
+                CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCInUitMelden, true, false, false, true, ts);
 
                 sb.AppendLine($"{ts}/* Pririteit-inmeldingen */");
                 foreach (var prio in c.PrioData.PrioIngrepen)
@@ -1049,7 +1049,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine($"{ts}IH[{_hpf}{_hhdin}{hd.FaseCyclus}] = IH[{_hpf}{_hhduit}{hd.FaseCyclus}] = FALSE;");
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCInUitMelden, false, true, true, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCInUitMelden, false, true, true, true, ts);
 
             if (c.HasKAR())
             {
@@ -1114,14 +1114,14 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioriteitsOpties(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPrioriteitsNiveau, true, false, false, true);
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPrioriteitsOpties, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPrioriteitsNiveau, true, false, false, true, ts);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPrioriteitsOpties, true, true, false, true, ts);
 
             sb.AppendLine($"{ts}#ifdef PRIO_ADDFILE");
             sb.AppendLine($"{ts}{ts}PrioriteitsOpties_Add();");
             sb.AppendLine($"{ts}#endif");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPrioriteitsNiveau, false, true, true, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPrioriteitsNiveau, false, true, true, true, ts);
 
             sb.AppendLine($"{ts}#ifdef PRIO_ADDFILE");
             sb.AppendLine($"{ts}{ts}PrioriteitsNiveau_Add();");
@@ -1137,7 +1137,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void OnderMaximumExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCOnderMaximum, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCOnderMaximum, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1150,7 +1150,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void AfkapGroenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCAfkapGroen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCAfkapGroen, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1163,7 +1163,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void StartGroenMomentenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCStartGroenMomenten, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCStartGroenMomenten, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1176,7 +1176,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioAfkappenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCAfkappen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCAfkappen, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1189,7 +1189,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioTerugkomGroenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCTerugkomGroen, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCTerugkomGroen, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1202,7 +1202,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioGroenVasthoudenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCGroenVasthouden, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCGroenVasthouden, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1215,7 +1215,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioMeetKriteriumExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCMeetkriterium, true, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCMeetkriterium, true, true, false, true, ts);
 
             sb.AppendLine("}");
 
@@ -1231,7 +1231,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioriteitsToekenningExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPrioriteitsToekenning, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPrioriteitsToekenning, true, true, false, false, ts);
 
             sb.AppendLine("}");
 
@@ -1247,7 +1247,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void TegenhoudenConflictenExtra(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCTegenhoudenConflicten, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCTegenhoudenConflicten, true, true, false, false, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
@@ -1264,7 +1264,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PostAfhandelingPrio(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPostAfhandelingPrio, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPostAfhandelingPrio, true, true, false, false, ts);
 
             sb.AppendLine("}");
 
@@ -1281,26 +1281,26 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioPARCorrecties(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPARCorrecties, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPARCorrecties, true, true, false, false, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
             return sb.ToString();
         }
 
-        private string GeneratePrioCPARCcol(ControllerModel c)
+        private string GeneratePrioCPARCcol(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _tgb = CCOLGeneratorSettingsProvider.Default.GetElementName("tgb");
-            var _tgbhd = CCOLGeneratorSettingsProvider.Default.GetElementName("tgbhd");
-            var _trt = CCOLGeneratorSettingsProvider.Default.GetElementName("trt");
-            var _trthd = CCOLGeneratorSettingsProvider.Default.GetElementName("trthd");
-            var _cvc = CCOLGeneratorSettingsProvider.Default.GetElementName("cvc");
-            var _cvchd = CCOLGeneratorSettingsProvider.Default.GetElementName("cvchd");
-            var _tblk = CCOLGeneratorSettingsProvider.Default.GetElementName("tblk");
-            var _hprio = CCOLGeneratorSettingsProvider.Default.GetElementName("hprio");
-            var _hhd = CCOLGeneratorSettingsProvider.Default.GetElementName("hhd");
+            var _tgb = settingsProvider.GetElementName("tgb");
+            var _tgbhd = settingsProvider.GetElementName("tgbhd");
+            var _trt = settingsProvider.GetElementName("trt");
+            var _trthd = settingsProvider.GetElementName("trthd");
+            var _cvc = settingsProvider.GetElementName("cvc");
+            var _cvchd = settingsProvider.GetElementName("cvchd");
+            var _tblk = settingsProvider.GetElementName("tblk");
+            var _hprio = settingsProvider.GetElementName("hprio");
+            var _hhd = settingsProvider.GetElementName("hhd");
 
             sb.AppendLine("/* -------------------------------------------------------");
             sb.AppendLine("   PrioCcol zorgt voor het bijwerken van de CCOL-elementen");
@@ -1316,7 +1316,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine($"  PrioCcolElementen(hdFC{hd.FaseCyclus}, {_tpf}{_tgbhd}{hd.FaseCyclus}, {_tpf}{_trthd}{hd.FaseCyclus}, {_hpf}{_hhd}{hd.FaseCyclus}, {_cpf}{_cvchd}{hd.FaseCyclus}, -1);");
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCPARCcol, true, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCPARCcol, true, true, false, false, ts);
 
             sb.AppendLine("}");
             sb.AppendLine();
@@ -1324,13 +1324,13 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             return sb.ToString();
         }
 
-        private string GeneratePrioCSpecialSignals(ControllerModel c)
+        private string GeneratePrioCSpecialSignals(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider)
         {
             var sb = new StringBuilder();
 
-            var _prmtestdsivert = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtestdsivert");
-            var _prmtestdsilyn = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtestdsilyn");
-            var _prmtestdsicat = CCOLGeneratorSettingsProvider.Default.GetElementName("prmtestdsicat");
+            var _prmtestdsivert = settingsProvider.GetElementName("prmtestdsivert");
+            var _prmtestdsilyn = settingsProvider.GetElementName("prmtestdsilyn");
+            var _prmtestdsicat = settingsProvider.GetElementName("prmtestdsicat");
 
             sb.AppendLine("/* ----------------------------------------------------------------");
             sb.AppendLine("   PrioSpecialSignals wordt aangeroepen vanuit de functie ");
@@ -1341,7 +1341,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
             sb.AppendLine("void PrioSpecialSignals(void)");
             sb.AppendLine("{");
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCSpecialSignals, false, true, false, true);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCSpecialSignals, false, true, false, true, ts);
 
             sb.AppendLine($"{ts}/* reset oude set_DSI_message */");
             sb.AppendLine($"{ts}#if !defined VISSIM_GLOBAL_DSI");
@@ -1421,7 +1421,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 }
             }
 
-	        AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCSpecialSignals, false, true, false, false);
+	        CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCSpecialSignals, false, true, false, false, ts);
 
             if (c.Data.PracticeOmgeving)
             {
@@ -1451,7 +1451,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration
                 sb.AppendLine("#endif");
             }
 
-            AddCodeTypeToStringBuilder(c, sb, CCOLCodeTypeEnum.PrioCBottom, false, true, false, false);
+            CCOLCodeGenerationHelper.AddCodeTypeToStringBuilder(c, OrderedPieceGenerators, sb, CCOLCodeTypeEnum.PrioCBottom, false, true, false, false, ts);
 
             return sb.ToString();
         }

@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A39A8A6-806E-4B17-86CC-FBE37AC328C4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TLCGen.Generators.Shared</RootNamespace>
+    <AssemblyName>TLCGen.Generators.Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Extended.Wpf.Toolkit\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CCOLCodeHelper.cs" />
+    <Compile Include="CCOLCodePieceGeneratorAttribute.cs" />
+    <Compile Include="CCOLCodePieceGeneratorBase.cs" />
+    <Compile Include="CCOLCodeTypeEnum.cs" />
+    <Compile Include="CCOLElement.cs" />
+    <Compile Include="CCOLElementCollector.cs" />
+    <Compile Include="CCOLElementTimeTypeEnum.cs" />
+    <Compile Include="CCOLElementTypeEnum.cs" />
+    <Compile Include="CCOLElemListData.cs" />
+    <Compile Include="CCOLGeneratorClassWithSettingsModel.cs" />
+    <Compile Include="CCOLGeneratorCodeStringSettingModel.cs" />
+    <Compile Include="CCOLGeneratorFolderSettingModel.cs" />
+    <Compile Include="CCOLGeneratorSettingsModel.cs" />
+    <Compile Include="CCOLGeneratorSettingsProvider.cs" />
+    <Compile Include="CCOLGeneratorSettingTypeEnum.cs" />
+    <Compile Include="CCOLGeneratorStringSettingModel.cs" />
+    <Compile Include="CCOLGeneratorVisualSettingsModel.cs" />
+    <Compile Include="CCOLIOElement.cs" />
+    <Compile Include="CCOLKoppelSignaal.cs" />
+    <Compile Include="CodePieceSettingsTuple.cs" />
+    <Compile Include="Generation\CCOLCodeGenerationHelper.cs" />
+    <Compile Include="Generation\CCOLDplGenerator.cs" />
+    <Compile Include="Generation\CCOLSimGenerator.cs" />
+    <Compile Include="Generation\CCOLSysGenerator.cs" />
+    <Compile Include="Generation\CCOLTabGenerator.cs" />
+    <Compile Include="Generation\CCOLHeaderGenerator.cs" />
+    <Compile Include="ICCOLCodePieceGenerator.cs" />
+    <Compile Include="ICCOLGeneratorSettingsProvider.cs" />
+    <Compile Include="ProjectGeneration\CCOLVisualProjectGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsUI\CCOLGeneratorSettingsView.xaml.cs">
+      <DependentUpon>CCOLGeneratorSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsUI\CCOLGeneratorSettingsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TLCGen.Dependencies\TLCGen.Dependencies\TLCGen.Dependencies.csproj">
+      <Project>{8D6F4BB4-41B7-4757-B6CE-AF9737AD3631}</Project>
+      <Name>TLCGen.Dependencies</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TLCGen.Parts\TLCGen.CustomPropertyEditors\TLCGen.CustomPropertyEditors.csproj">
+      <Project>{9890605D-8F9C-4AC0-8493-1598DFF0007F}</Project>
+      <Name>TLCGen.CustomPropertyEditors</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="SettingsUI\CCOLGeneratorSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
+      <ItemGroup>
+        <Reference Include="CommonServiceLocator">
+          <HintPath>..\..\packages\CommonServiceLocator\lib\net45\CommonServiceLocator.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
+      <ItemGroup>
+        <Reference Include="CommonServiceLocator">
+          <HintPath>..\..\packages\CommonServiceLocator\lib\net46\CommonServiceLocator.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1' Or $(TargetFrameworkVersion) == 'v4.7.2')">
+      <ItemGroup>
+        <Reference Include="CommonServiceLocator">
+          <HintPath>..\..\packages\CommonServiceLocator\lib\net47\CommonServiceLocator.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v4.7.1' Or $(TargetFrameworkVersion) == 'v4.7.2')">
+      <ItemGroup>
+        <Reference Include="GalaSoft.MvvmLight">
+          <HintPath>..\..\packages\MvvmLightLibs\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="GalaSoft.MvvmLight.Extras">
+          <HintPath>..\..\packages\MvvmLightLibs\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="GalaSoft.MvvmLight.Platform">
+          <HintPath>..\..\packages\MvvmLightLibs\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Windows.Interactivity">
+          <HintPath>..\..\packages\MvvmLightLibs\lib\net45\System.Windows.Interactivity.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+</Project>

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TLCGen.Extensions;
-using TLCGen.Generators.CCOL.Settings;
 using TLCGen.Models;
+using TLCGen.Generators.Shared;
 using TLCGen.Models.Enumerations;
 
 namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
@@ -13,6 +13,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
     public class RISCodeGenerator : CCOLCodePieceGeneratorBase
     {
 #pragma warning disable 0649
+        private CCOLGeneratorCodeStringSettingModel _schris;
         private CCOLGeneratorCodeStringSettingModel _prmrisastart;
         private CCOLGeneratorCodeStringSettingModel _prmrisaend;
         private CCOLGeneratorCodeStringSettingModel _prmrisvstart;
@@ -26,7 +27,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
             return true;
         }
 
-        public override void CollectCCOLElements(ControllerModel c)
+        public override void CollectCCOLElements(ControllerModel c, ICCOLGeneratorSettingsProvider settingsProvider = null)
         {
             _myElements = new List<CCOLElement>();
             _myBitmapInputs = new List<CCOLIOElement>();
@@ -35,6 +36,12 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
 
             if (risModel.RISToepassen)
             {
+                _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement(
+                    $"{_schris}",
+                    1,
+                    CCOLElementTimeTypeEnum.SCH_type,
+                    _schris));
+
                 _myElements.Add(CCOLGeneratorSettingsProvider.Default.CreateElement(
                     $"{_schrisgeencheckopsg}",
                     0,
@@ -273,7 +280,7 @@ namespace TLCGen.Generators.CCOL.CodeGeneration.Functionality
                     sb.AppendLine($"{ts}{ts}#endif");
                     sb.AppendLine($"{ts}{ts}{ts}/* RIS-Controller */");
                     sb.AppendLine($"{ts}{ts}{ts}/* -------------- */");
-                    sb.AppendLine($"{ts}{ts}{ts}ris_controller(SAPPLPROG, TRUE);");
+                    sb.AppendLine($"{ts}{ts}{ts}if (SCH[{_schpf}{_schris}]) ris_controller(SAPPLPROG, TRUE);");
                     sb.AppendLine($"{ts}#endif");
                     return sb.ToString();
                 default:
