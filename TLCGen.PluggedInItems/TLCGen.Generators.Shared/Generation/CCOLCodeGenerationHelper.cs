@@ -72,14 +72,14 @@ namespace TLCGen.Generators.Shared
         /// <param name="startIndex">Optional: if not 0, numberdefine will be ignored, and 
         /// counting will start from the position</param>
         /// <returns></returns>
-        public static string GetAllElementsSysHLines(CCOLElemListData data, string ts, string numberdefine = null, List<CCOLElement> extraElements = null, int startIndex = 0)
+        public static string GetAllElementsSysHLines(CCOLElemListData data, string ts, string numberdefine = null, List<CCOLElement> extraElements = null)
         {
             var sb = new StringBuilder();
 
             var pad1 = data.DefineMaxWidth + $"{ts}#define  ".Length;
             var pad2 = data.Elements.Count.ToString().Length;
             var pad3 = data.CommentsMaxWidth;
-            var index = startIndex;
+            var index = 0;
 
             foreach (var elem in data.Elements)
             {
@@ -87,7 +87,7 @@ namespace TLCGen.Generators.Shared
                     continue;
                 
                 sb.Append($"{ts}#define {elem.Define} ".PadRight(pad1));
-                if (string.IsNullOrWhiteSpace(numberdefine) || startIndex != 0)
+                if (string.IsNullOrWhiteSpace(numberdefine))
                 {
                     sb.Append($"{index}".PadLeft(pad2));
                 }
@@ -117,7 +117,7 @@ namespace TLCGen.Generators.Shared
                         continue;
 
                     sb.Append($"{ts}#define {elem.Define} ".PadRight(pad1));
-                    if (string.IsNullOrWhiteSpace(numberdefine) || startIndex != 0)
+                    if (string.IsNullOrWhiteSpace(numberdefine))
                     {
                         sb.Append($"{indexautom}".PadLeft(pad2));
                     }
@@ -137,7 +137,7 @@ namespace TLCGen.Generators.Shared
                     ++indexautom;
                 }
                 sb.Append($"{ts}#define {data.Elements.Last().Define} ".PadRight(pad1));
-                if (string.IsNullOrWhiteSpace(numberdefine) || startIndex != 0)
+                if (string.IsNullOrWhiteSpace(numberdefine))
                 {
                     sb.AppendLine($"{indexautom}".PadLeft(pad2));
                 }
@@ -149,7 +149,7 @@ namespace TLCGen.Generators.Shared
                 }
                 sb.AppendLine("#else");
                 sb.Append($"{ts}#define {data.Elements.Last().Define} ".PadRight(pad1));
-                if (string.IsNullOrWhiteSpace(numberdefine) || startIndex != 0)
+                if (string.IsNullOrWhiteSpace(numberdefine))
                 {
                     sb.AppendLine($"{index}".PadLeft(pad2));
                 }
@@ -164,7 +164,7 @@ namespace TLCGen.Generators.Shared
             else if(data.Elements.Count > 0)
             {
                 sb.Append($"{ts}#define {data.Elements.Last().Define} ".PadRight(pad1));
-                if (string.IsNullOrWhiteSpace(numberdefine) || startIndex != 0)
+                if (string.IsNullOrWhiteSpace(numberdefine))
                 {
                     sb.AppendLine($"{index}".PadLeft(pad2));
                 }

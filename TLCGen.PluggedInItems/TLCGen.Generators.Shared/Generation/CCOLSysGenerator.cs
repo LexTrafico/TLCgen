@@ -182,7 +182,7 @@ namespace TLCGen.Generators.Shared
             sb.AppendLine("/* overige uitgangen */");
             sb.AppendLine("/* ----------------- */");
 
-            sb.Append(CCOLCodeGenerationHelper.GetAllElementsSysHLines(_generationData._uitgangen, _ts, "FCMAX", startIndex: countOnwardsIo ? controller.Fasen.Count : 0));
+            sb.Append(CCOLCodeGenerationHelper.GetAllElementsSysHLines(_generationData._uitgangen, _ts, "FCMAX"));
 
             return sb.ToString();
         }
@@ -249,11 +249,11 @@ namespace TLCGen.Generators.Shared
                     sb.AppendLine($"{index}".PadLeft(pad2));
                     ++index;
                 }
-                sb.Append($"{_ts}#define DPMAX1 ".PadRight(pad1));
+                sb.Append($"{_ts}#define DPMAX{(hasAddFile ? "1" : "")} ".PadRight(pad1));
                 sb.Append($"{index} ".PadLeft(pad2));
                 sb.AppendLine("/* aantal detectoren testomgeving */");
                 sb.AppendLine("#else");
-                sb.Append($"{_ts}#define DPMAX1 ".PadRight(pad1));
+                sb.Append($"{_ts}#define DPMAX{(hasAddFile ? "1" : "")} ".PadRight(pad1));
                 sb.Append($"{autom_index} ".PadLeft(pad2));
                 sb.AppendLine("/* aantal detectoren automaat omgeving */");
                 sb.AppendLine("#endif");
@@ -275,7 +275,7 @@ namespace TLCGen.Generators.Shared
             sb.AppendLine("/* overige ingangen */");
             sb.AppendLine("/* ---------------- */");
 
-            sb.Append(CCOLCodeGenerationHelper.GetAllElementsSysHLines(_generationData._ingangen, _ts, "DPMAX", startIndex: countOnwardsIo ? controller.Fasen.Count : 0));
+            sb.Append(CCOLCodeGenerationHelper.GetAllElementsSysHLines(_generationData._ingangen, _ts, "DPMAX"));
 
             return sb.ToString();
         }
