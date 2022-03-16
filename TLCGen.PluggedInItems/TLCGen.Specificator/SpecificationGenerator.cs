@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml;
+﻿using System;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using TLCGen.Generators.CCOL.CodeGeneration;
 using TLCGen.Models;
+using TLCGen.Plugins;
 using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
 
 namespace TLCGen.Specificator
@@ -76,8 +78,63 @@ namespace TLCGen.Specificator
             settingsPart.Settings.Save();
         }
 
+        private static void AppendGenericSpecificationData(WordprocessingDocument doc, IEnumerable<SpecificationData> pluginData)
+        {
+            var body = doc.MainDocumentPart.Document.Body;
+            
+            foreach (var specData in pluginData.Where(x => x.Subject == SpecificationSubject.Detectors))
+            {
+                // verwerken spec data
+                foreach (var element in specData.Elements)
+                {
+                    switch (element)
+                    {
+                        case SpecificationParagraph paragraph:
+                            switch (paragraph.Type)
+                            {
+                                case SpecificationParagraphType.Body:
+                                    body.Append(OpenXmlHelper.GetTextParagraph($"{paragraph.Text}"));
+                                    break;
+                                case SpecificationParagraphType.Header1:
+                                    body.Append(OpenXmlHelper.GetTextParagraph($"{paragraph.Text}", "Heading1"));
+                                    break;
+                                case SpecificationParagraphType.Header2:
+                                    body.Append(OpenXmlHelper.GetTextParagraph($"{paragraph.Text}", "Heading2"));
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+
+                            break;
+                        case SpecificationTable table:
+                            var docTable = OpenXmlHelper.GetTable(table.TableData, firstRowVerticalText: true);
+                            body.Append(docTable);
+                            break;
+                        
+                        case SpecificationBulletList bulletList:
+                            var docBulletList = OpenXmlHelper.GetBulletList(doc, bulletList.BulletData);
+                            body.Append(docBulletList);
+                            break;
+                    }
+                }
+            }
+        }
+
         public static void GenerateSpecification(string filename, ControllerModel c, SpecificatorDataModel model)
         {
+            var pluginData = new List<SpecificationData>();
+            
+            // loopen van alle plugins
+            foreach (var plugin in TLCGenPluginManager.Default.ApplicationPlugins)
+            {
+                // check of de plugin specificatie data heeft
+                if (plugin.Item2 is ITLCGenHasSpecification specGen)
+                {
+                    var d = specGen.GetSpecificationData(c);
+                    if (d != null) pluginData.Add(d);
+                }
+            }
+
             using (var doc = WordprocessingDocument.Open(filename, true))
             {
                 // Add a main document part. 
@@ -94,6 +151,8 @@ namespace TLCGen.Specificator
                 
                 // Chap 1: Introduction
                 FunctionalityGenerator.GetIntroChapter(doc, c, model);
+                
+                AppendGenericSpecificationData(doc, pluginData.Where(x => x.Subject == SpecificationSubject.Intro));
 
                 // Chap 2: Structuur en afwikkeling
                 body.Append(OpenXmlHelper.GetChapterTitleParagraph($"{Texts["Title_StructuurEnAfwikkeling"]}", 1));
@@ -110,7 +169,9 @@ namespace TLCGen.Specificator
                 body.Append(FunctionalityGenerator.GetChapter_DetectieInstellingen(doc, c));
                 body.Append(FunctionalityGenerator.GetChapter_DetectieRichtingGevoelig(c));
                 body.Append(FunctionalityGenerator.GetChapter_DetectieStoring(doc, c));
-
+                
+                AppendGenericSpecificationData(doc, pluginData.Where(x => x.Subject == SpecificationSubject.Detectors));                
+                
                 // Chap 4: Intersignaalgroep
                 body.Append(OpenXmlHelper.GetChapterTitleParagraph($"{Texts["Title_Intersignaalgroep"]}", 1));
                 body.Append(FunctionalityGenerator.GetChapter_Ontruimingstijden(c));

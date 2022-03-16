@@ -22,7 +22,7 @@ namespace TLCGen.Plugins.DynamischHiaat
     [TLCGenTabItem(-1, TabItemTypeEnum.DetectieTab)]
     [TLCGenPlugin(TLCGenPluginElems.PlugMessaging | TLCGenPluginElems.TabControl | TLCGenPluginElems.XMLNodeWriter | TLCGenPluginElems.HasSettings)]
     [CCOLCodePieceGenerator]
-    public class DynamischHiaatPlugin : CCOLCodePieceGeneratorBase, ITLCGenPlugMessaging, ITLCGenTabItem, ITLCGenXMLNodeWriter, ITLCGenHasSettings
+    public class DynamischHiaatPlugin : CCOLCodePieceGeneratorBase, ITLCGenPlugMessaging, ITLCGenTabItem, ITLCGenXMLNodeWriter, ITLCGenHasSettings, ITLCGenHasSpecification
     {
         #region Fields
 
@@ -434,5 +434,38 @@ namespace TLCGen.Plugins.DynamischHiaat
         }
 
         #endregion //Constructor
+
+        public SpecificationData GetSpecificationData(ControllerModel c)
+        {
+            var data = new SpecificationData
+            {
+                Subject = SpecificationSubject.Detectors
+            };
+
+            foreach (var x in _myModel.SignaalGroepenMetDynamischHiaat)
+            {
+                data.Elements.Add(new SpecificationParagraph
+                {
+                    Text = $"Opdrempelen: {(x.Opdrempelen ? "ja" : "nee")}", Type = SpecificationParagraphType.Body
+                });
+            }
+
+            var table = new List<List<string>>();
+            table.Add(new List<string>
+            {
+                "Opdrempelen", "Kijken naar koplus"
+            });
+            foreach (var x in _myModel.SignaalGroepenMetDynamischHiaat)
+            {
+                table.Add(new List<string>
+                {
+                    (x.Opdrempelen ? "ja" : "nee"), (x.KijkenNaarKoplus ? "ja" : "nee")
+                });
+            }
+            
+            data.Elements.Add(new SpecificationTable{ TableData = table });
+                        
+            return data;
+        }
     }
 }
